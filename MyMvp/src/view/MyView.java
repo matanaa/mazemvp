@@ -6,52 +6,131 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-import algorithms.mazeGenerators.Maze2d;
+import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 
-public class MyView extends Observable implements View, Observer {
-	
-	private BufferedReader in;
-	private PrintWriter out;
-	private CLI cli;	
 
+public class MyView extends CommonView {
+
+	/**
+	 * Instantiates a new my view.
+	 *
+	 * @param in
+	 *            the input
+	 * @param out
+	 *            the output
+	 */
 	public MyView(BufferedReader in, PrintWriter out) {
-		this.in = in;
-		this.out = out;
-				
-		cli = new CLI(in, out);
-		cli.addObserver(this);
-	}	
+		super(in, out);
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.CommonView#notifyMazeIsReady(java.lang.String)
+	 */
 	@Override
 	public void notifyMazeIsReady(String name) {
-		out.println("maze " + name + " is ready");
+		out.println("The Maze " + name + " is ready");
 		out.flush();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.CommonView#displayMaze(algorithms.mazeGenerators.Maze3d)
+	 */
 	@Override
-	public void displayMaze(Maze2d maze) {
+	public void displayMaze(Maze3d maze) {
 		out.println(maze);
 		out.flush();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#printAnswers(java.lang.String[])
+	 */
+	@Override
+	public void printAnswers(String[] args) {
+		for (String line : args) {
+			out.println(line);
+			out.flush();
+		}
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#start()
+	 */
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
 		cli.start();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#printCross(int[][])
+	 */
 	@Override
-	public void displayMessage(String msg) {
-		out.println(msg);
-		out.flush();		
+	public void printCross(int[][] cross) {
+		for (int[] i : cross) {
+			for (int j : i) {
+				out.print(j + " ");
+			}
+			out.println("");
+		}
+		out.println("");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#notifySolutionIsReady(java.lang.String)
+	 */
+	@Override
+	public void notifySolutionIsReady(String name) {
+		out.println("The Solution for Maze " + name + " is ready");
+		out.flush();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#displayMazeSolution(algorithms.search.Solution)
+	 */
+	@Override
+	public void displayMazeSolution(Solution<Position> solution) {
+		out.println(solution);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#printErrorMessage(java.lang.String[])
+	 */
+	@Override
+	public void printErrorMessage(String[] msg) {
+		for (String line : msg) {
+			out.println(line);
+		}
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o == cli) {
 			setChanged();
 			notifyObservers(arg);
 		}
+}
+
+	public void notifyObservers(Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

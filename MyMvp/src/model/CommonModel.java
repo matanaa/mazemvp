@@ -8,7 +8,6 @@ import algorithms.mazeGenerators.CommonMaze3dGenerator;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
-import controller.Controller;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -16,8 +15,7 @@ import controller.Controller;
  */
 public abstract class CommonModel implements Model {
 
-	/** The controller. */
-	protected Presenter controller;
+
 
 	/** The maze list. */
 	protected HashMap<String, Maze3d> mazeMap;
@@ -28,23 +26,7 @@ public abstract class CommonModel implements Model {
 	/** The thread pool. */
 	protected ExecutorService threadPool;
 
-	/**
-	 * Gets the controller.
-	 *
-	 * @return the controller
-	 */
-	public Presenter getController() {
-		return controller;
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see model.Model#setController(controller.Controller)
-	 */
-	public void setController(Presenter controller) {
-		this.controller = controller;
-	}
 
 	/**
 	 * Gets the maze map.

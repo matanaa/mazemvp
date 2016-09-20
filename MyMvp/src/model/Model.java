@@ -8,7 +8,7 @@ import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.CommonSearcher;
 import algorithms.search.Solution;
-import controller.Controller;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -45,13 +45,6 @@ public interface Model {
 	 */
 	void exit();
 
-	/**
-	 * Sets the controller.
-	 *
-	 * @param controller
-	 *            the new controller
-	 */
-	void setController(Presenter controller);
 
 	/**
 	 * Load maze.
