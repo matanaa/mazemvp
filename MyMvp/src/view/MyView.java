@@ -122,15 +122,12 @@ public class MyView extends CommonView {
 	
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("yaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		if (o == cli) {
 			setChanged();
 			notifyObservers(arg);
 		}
 }
 
-	public void notifyObservers(Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

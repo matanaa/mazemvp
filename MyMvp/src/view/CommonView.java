@@ -23,7 +23,8 @@ public abstract class CommonView extends Observable implements View, Observer   
 	protected PrintWriter out;
 
 	/** The cli. */
-	protected CLI cli;
+	public CLI cli;
+	
 
 	/**
 	 * Instantiates a new common view.
@@ -37,6 +38,7 @@ public abstract class CommonView extends Observable implements View, Observer   
 		this.in = in;
 		this.out = out;
 		cli = new CLI(in, out);
+		cli.addObserver(this);
 	}
 
 

@@ -6,9 +6,7 @@ import java.util.Observable;
 import model.Model;
 import view.View;
 
-
 public class MyPresenter extends CommonPresenter {
-
 
 	public MyPresenter(View view, Model model) {
 		super(view, model);
@@ -47,32 +45,73 @@ public class MyPresenter extends CommonPresenter {
 
 	@Override
 	public void update(Observable o, Object arg) {
-	String commandLine = (String)arg;
-		
-		String arr[] = commandLine.split(" ");
-		String command = arr[0];			
-		
-		if(!commands.containsKey(command)) {
-			//view.displayMessage("Command doesn't exist");	
-			view.printErrorMessage(new String[]{"Command doesn't exist","Command doesn't exist"});
-			
-		}
-		else {
-			String[] args = null;
-			if (arr.length > 1) {
-				String commandArgs = commandLine.substring(
-						commandLine.indexOf(" ") + 1);
-				args = commandArgs.split(" ");							
+		if (o == view) {
+			String commandLine = (String) arg;
+			// split the input to array of single words
+			String commandsArray[] = commandLine.split(" ");
+			// recognizes only the first word as the command itself
+			String command = commandsArray[0].toLowerCase();
+
+			// throws error if the command isn't part of the
+			// commands list
+			if (!commands.containsKey(command)) {
+				view.printErrorMessage(new String[] { "Critical Error", "Command doesn't exist!" });
+			} else {
+				// creates the variable that will hold the arguments
+				String[] args = null;
+				// if there's more than one argument it will split
+				// it to array of single words
+				if (commandsArray.length > 1) {
+					String commandArgs = commandLine.substring(commandLine.indexOf(" ") + 1);
+					args = commandArgs.split(" ");
+				}
+				// gets the actual command from the command list
+				Command cmd = commands.get(command);
+				try {
+					// initiate the command and sending the
+					// arguments
+					cmd.doCommand(args);
+					// print error if there are no arguments at all
+				} catch (NullPointerException | IOException e) {
+					view.printErrorMessage(new String[] { "Arguments Error", "No arguments!" });
+
+				}
 			}
-			Command cmd = commands.get(command);
-			try {
-				cmd.doCommand(args);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
+		} else if (o == model) {
+			
+			// split the input to] array of single words
+			String commandsArray[] = (String[]) arg;
+			// recognizes only the first word as the command itself
+			String command = commandsArray[0].toLowerCase();
+
+			// throws error if the command isn't part of the
+			// commands list
+			if (!commands.containsKey(command)) {
+				view.printErrorMessage(new String[] { "Critical Error", "Command doesn't exist!" });
+			} else {
+				// creates the variable that will hold the arguments
+				String[] args = null;
+				// if there's more than one argument it will split
+				// it to array of single words
+				if (commandsArray.length > 1) {
+					args =new String [commandsArray.length-1];
+					for (int i=0;i<commandsArray.length-1;i++ )
+					{
+						args[i]=commandsArray[i+1];
+					}
+				}
+				switch (command) {
+				case "error":
+					view.printErrorMessage(args);
+
+					break;
+				case "MazeIsReady":
+					view.notifyMazeIsReady(args[0]);
+				default:
+					break;
+				}
+			}
 		}
-		
 	}
 
 }

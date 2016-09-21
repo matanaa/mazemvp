@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
@@ -54,8 +55,8 @@ public class MyModel extends CommonModel {
 	 */
 	public MyModel() {
 		super();
-		properties = PropertiesLoader.getInstance().getProperties();
-		executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
+	//	properties = PropertiesLoader.getInstance().getProperties();
+		//executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
 		loadSolutions();
 	}
 
@@ -63,7 +64,7 @@ public class MyModel extends CommonModel {
 	 * The Class generateMazeRunnable - an adapter to make the generation
 	 * process runnable on threads.
 	 */
-	class generateMazeRunnable implements Runnable {
+	class generateMazeRunnable extends Observable implements Runnable {
 
 		/** The floors, rows, colums. */
 		private int floors, rows, colums;
@@ -107,7 +108,8 @@ public class MyModel extends CommonModel {
 			// choosing the generator type
 			Maze3d maze = generator.generate(floors, rows, colums);
 			mazeMap.put(name, maze);
-			notifyObservers(new String[] { "Name change", name});
+			setChanged();
+			notifyObservers(new String[] { "MazeIsReady", name});
 			//controller.notifyMazeIsReady(name);
 		}
 
@@ -174,7 +176,7 @@ public class MyModel extends CommonModel {
 			in.close();
 			Maze3d loaded = new Maze3d(b);
 			mazeMap.put(name, loaded);
-			notifyObservers(new String[] { "notifyMazeIsReady", name});
+			notifyObservers(new String[] {"notifyMazeIsReady", name});
 		
 		} catch (FileNotFoundException e) {
 			//controller.printErrorMessage(new String[] { "File location Error", "can't find the file" });
@@ -336,4 +338,6 @@ public class MyModel extends CommonModel {
 			}
 		}
 	}
+
+
 }

@@ -2,6 +2,7 @@ package model;
 
 import java.util.HashMap;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
