@@ -6,9 +6,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import algorithm.demo.MazeAdapter;
 import algorithms.mazeGenerators.CommonMaze3dGenerator;
@@ -20,6 +28,8 @@ import algorithms.search.Searchable;
 import algorithms.search.Solution;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
+import properties.Properties;
+import properties.PropertiesLoader;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -33,12 +43,20 @@ public class MyModel extends CommonModel {
 	/** The open file count. */
 	// will count how many files are open
 	protected int openFileCount = 0;
+	
+	protected Properties properties;
+	
+
+	protected ExecutorService executor;
 
 	/**
 	 * Instantiates a new my model.
 	 */
 	public MyModel() {
 		super();
+		properties = PropertiesLoader.getInstance().getProperties();
+		executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
+		loadSolutions();
 	}
 
 	/**
@@ -261,6 +279,61 @@ public class MyModel extends CommonModel {
 	public void waitUntilCloseAllFiles() throws InterruptedException {
 		while (openFileCount != 0) { //until we have no files open
 			Thread.sleep(100);
+		}
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private void loadSolutions() {
+		File file = new File("solutions.dat");
+		if (!file.exists())
+			return;
+		
+		ObjectInputStream ois = null;
+		
+		try {
+			ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream("solutions.dat")));
+			mazeMap = (HashMap<String, Maze3d>)ois.readObject();
+			solutionMap = (HashMap<String, Solution<Position>>)ois.readObject();		
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			try {
+				ois.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}		
+	}
+	
+	private void saveSolutions() {
+		ObjectOutputStream oos = null;
+		try {
+		    oos = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream("solutions.dat")));
+			oos.writeObject(mazeMap);
+			oos.writeObject(solutionMap);			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				oos.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
