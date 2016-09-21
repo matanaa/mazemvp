@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.Observable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,7 +14,7 @@ import algorithms.search.Solution;
 /**
  * The Class CommonModel - abstract class for all models
  */
-public abstract class CommonModel implements Model {
+public abstract class CommonModel extends Observable implements Model {
 
 
 

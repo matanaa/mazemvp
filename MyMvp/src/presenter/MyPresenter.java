@@ -53,7 +53,9 @@ public class MyPresenter extends CommonPresenter {
 		String command = arr[0];			
 		
 		if(!commands.containsKey(command)) {
-			view.displayMessage("Command doesn't exist");			
+			//view.displayMessage("Command doesn't exist");	
+			view.printErrorMessage(new String[]{"Command doesn't exist","Command doesn't exist"});
+			
 		}
 		else {
 			String[] args = null;

@@ -89,7 +89,8 @@ public class MyModel extends CommonModel {
 			// choosing the generator type
 			Maze3d maze = generator.generate(floors, rows, colums);
 			mazeMap.put(name, maze);
-			controller.notifyMazeIsReady(name);
+			notifyObservers(new String[] { "Name change", name});
+			//controller.notifyMazeIsReady(name);
 		}
 
 		/**
@@ -155,12 +156,14 @@ public class MyModel extends CommonModel {
 			in.close();
 			Maze3d loaded = new Maze3d(b);
 			mazeMap.put(name, loaded);
-			controller.notifyMazeIsReady(name);
+			notifyObservers(new String[] { "notifyMazeIsReady", name});
+		
 		} catch (FileNotFoundException e) {
-			controller.printErrorMessage(new String[] { "File location Error", "can't find the file" });
-
+			//controller.printErrorMessage(new String[] { "File location Error", "can't find the file" });
+			notifyObservers(new String[] { "error", "File location Error", "can't find the file" });
 		} catch (IOException e) {
-			controller.printErrorMessage(new String[] { "Errorr", "can't Load the maze" });
+			notifyObservers(new String[] { "error", "File Error", "can't Load the maze" });
+			//controller.printErrorMessage(new String[] { "Errorr", "can't Load the maze" });
 
 		} finally {
 			// use to check how many files are open for a proper exit
@@ -186,7 +189,8 @@ public class MyModel extends CommonModel {
 				Searchable<Position> searchableMaze = new MazeAdapter(maze);
 				Solution<Position> solution = searcher.search(searchableMaze);
 				solutionMap.put(name, solution);
-				controller.notifySolutionIsReady(name);
+				//controller.notifySolutionIsReady(name);
+				notifyObservers(new String[] { "SolutionIsReady",name });
 			}
 
 		});
@@ -225,7 +229,10 @@ public class MyModel extends CommonModel {
 	public void save_maze(String name, String file_name) {
 		Maze3d maze = getMaze(name); //get the maze by name
 		if (maze==null){
-			controller.printErrorMessage(new String[] { "maze name errorr", "can't find the maze "+name });
+			notifyObservers(new String[] { "SolutionIsReady",name });
+			notifyObservers(new String[] { "error",  "maze name errorr", "can't find the maze "+name });
+
+
 			return;
 		}
 		OutputStream savedFile;
@@ -238,7 +245,8 @@ public class MyModel extends CommonModel {
 			savedFile.flush();
 			savedFile.close();
 		} catch (IOException e) {
-			controller.printErrorMessage(new String[] { "File location Error", "can't save in that path" });
+			notifyObservers(new String[] { "error",  "File location Error", "can't save in that path" });
+			//controller.printErrorMessage(new String[] { "File location Error", "can't save in that path" });
 		} finally {
 			openFileCount--; // notify that one file is closed
 		}
