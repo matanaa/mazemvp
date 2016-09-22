@@ -41,9 +41,8 @@ public class MyModel extends CommonModel {
 	/** The open file count. */
 	// will count how many files are open
 	protected int openFileCount = 0;
-	
+
 	protected Properties properties;
-	
 
 	protected ExecutorService executor;
 
@@ -52,10 +51,11 @@ public class MyModel extends CommonModel {
 	 */
 	public MyModel() {
 		super();
-	//	properties = PropertiesLoader.getInstance().getProperties();
-		//executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
+		// properties = PropertiesLoader.getInstance().getProperties();
+		// executor =
+		// Executors.newFixedThreadPool(properties.getNumOfThreads());
 		loadSolutions();
-		
+
 	}
 
 	/**
@@ -107,8 +107,8 @@ public class MyModel extends CommonModel {
 			Maze3d maze = generator.generate(floors, rows, colums);
 			mazeMap.put(name, maze);
 			setChanged();
-			notifyObservers(new String[] { "MazeIsReady", name});
-			//controller.notifyMazeIsReady(name);
+			notifyObservers(new String[] { "MazeIsReady", name });
+			// controller.notifyMazeIsReady(name);
 		}
 
 		/**
@@ -119,6 +119,64 @@ public class MyModel extends CommonModel {
 		}
 	}
 
+	class generateMazeCallable implements Callable {
+
+		/** The floors, rows, colums. */
+		private int floors, rows, colums;
+
+		/** The name of the maze. */
+		private String name;
+
+		/** The generator type. */
+		private Maze3dGenerator generator;
+
+		/**
+		 * Instantiates a new generate maze runnable.
+		 *
+		 * @param floors
+		 *            the floors
+		 * @param rows
+		 *            the rows
+		 * @param colums
+		 *            the colums
+		 * @param name
+		 *            the name of the amazing maze
+		 * @param generator
+		 *            the generator for creating the maze
+		 */
+		public generateMazeCallable(int floors, int rows, int colums, String name, Maze3dGenerator generator) {
+			super();
+			this.floors = floors;
+			this.rows = rows;
+			this.colums = colums;
+			this.name = name;
+			this.generator = generator;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public Maze3d call() {
+			// choosing the generator type
+			Maze3d maze = generator.generate(floors, rows, colums);
+			mazeMap.put(name, maze);
+			setChanged();
+			notifyObservers(new String[] { "MazeIsReady", name });
+			return maze;
+		}
+
+		/**
+		 * Terminate.
+		 */
+		public void terminate() {
+			generator.setDone(true);
+		}
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -126,9 +184,9 @@ public class MyModel extends CommonModel {
 	 */
 	@Override
 	public void generateMaze(String name, int floors, int rows, int cols, CommonMaze3dGenerator generator) {
-		generateMazeRunnable generateMaze = new generateMazeRunnable(floors, rows, cols, name, generator);
+		generateMazeCallable generateMaze = new generateMazeCallable(floors, rows, cols, name, generator);
 
-		//send the "generateMaze" to the thread pool and start the thread
+		// send the "generateMaze" to the thread pool and start the thread
 		threadPool.submit(generateMaze);
 	}
 
@@ -165,24 +223,33 @@ public class MyModel extends CommonModel {
 		// use to check how many files are open for a proper exit
 		openFileCount++;
 		try {
-			
-			 File fileinstance = new File(file + ".maz");// file instance need for taking the file size
+
+			File fileinstance = new File(file + ".maz");// file instance need
+														// for taking the file
+														// size
 			// using decorator pattern to get a file using our decompressor
 			in = new MyDecompressorInputStream(new FileInputStream(fileinstance));
 			// creates a max size byte array
-			byte b[] = new byte[(int) fileinstance.length()+1]; //get the file size in bytes and add 1 for the long 
+			byte b[] = new byte[(int) fileinstance.length() + 1]; // get the
+																	// file size
+																	// in bytes
+																	// and add 1
+																	// for the
+																	// long
 			in.read(b);
 			in.close();
 			Maze3d loaded = new Maze3d(b);
 			mazeMap.put(name, loaded);
-			notifyObservers(new String[] {"notifyMazeIsReady", name});
-		
+			notifyObservers(new String[] { "notifyMazeIsReady", name });
+
 		} catch (FileNotFoundException e) {
-			//controller.printErrorMessage(new String[] { "File location Error", "can't find the file" });
+			// controller.printErrorMessage(new String[] { "File location
+			// Error", "can't find the file" });
 			notifyObservers(new String[] { "error", "File location Error", "can't find the file" });
 		} catch (IOException e) {
 			notifyObservers(new String[] { "error", "File Error", "can't Load the maze" });
-			//controller.printErrorMessage(new String[] { "Errorr", "can't Load the maze" });
+			// controller.printErrorMessage(new String[] { "Errorr", "can't Load
+			// the maze" });
 
 		} finally {
 			// use to check how many files are open for a proper exit
@@ -197,12 +264,10 @@ public class MyModel extends CommonModel {
 	 * @see model.Model#solveMaze3d(java.lang.String,
 	 * algorithms.search.CommonSearcher)
 	 */
-	
 
-	
 	@Override
 	public void solveMaze3d(String name, CommonSearcher<Position> searcher) {
-		
+
 		threadPool.submit(new Callable<Solution<Position>>() {
 
 			@Override
@@ -213,17 +278,13 @@ public class MyModel extends CommonModel {
 				Solution<Position> solution = searcher.search(searchableMaze);
 				solutionMap.put(name, solution);
 				setChanged();
-				notifyObservers(new String[] { "SolutionIsReady", name});
+				notifyObservers(new String[] { "SolutionIsReady", name });
 				return solution;
 			}
 
 		});
 	}
 
-	
-	
-	
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -252,26 +313,27 @@ public class MyModel extends CommonModel {
 	 */
 	@Override
 	public void save_maze(String name, String file_name) {
-		Maze3d maze = getMaze(name); //get the maze by name
-		if (maze==null){
-			notifyObservers(new String[] { "SolutionIsReady",name });
-			notifyObservers(new String[] { "error",  "maze name error", "can't find the maze "+name });
-
+		Maze3d maze = getMaze(name); // get the maze by name
+		if (maze == null) {
+			notifyObservers(new String[] { "SolutionIsReady", name });
+			notifyObservers(new String[] { "error", "maze name error", "can't find the maze " + name });
 
 			return;
 		}
 		OutputStream savedFile;
 		openFileCount++; // will add notification that one file is opend
 		try {
-			
+
 			savedFile = new MyCompressorOutputStream(new FileOutputStream(file_name + ".maz"));
 
-			savedFile.write(maze.toByteArray());//write the compress byte maze to file
+			savedFile.write(maze.toByteArray());// write the compress byte maze
+												// to file
 			savedFile.flush();
 			savedFile.close();
 		} catch (IOException e) {
-			notifyObservers(new String[] { "error",  "File location Error", "can't save in that path" });
-			//controller.printErrorMessage(new String[] { "File location Error", "can't save in that path" });
+			notifyObservers(new String[] { "error", "File location Error", "can't save in that path" });
+			// controller.printErrorMessage(new String[] { "File location
+			// Error", "can't save in that path" });
 		} finally {
 			openFileCount--; // notify that one file is closed
 		}
@@ -284,24 +346,23 @@ public class MyModel extends CommonModel {
 	 * @see model.Model#waitUntilCloseAllFiles()
 	 */
 	public void waitUntilCloseAllFiles() throws InterruptedException {
-		while (openFileCount != 0) { //until we have no files open
+		while (openFileCount != 0) { // until we have no files open
 			Thread.sleep(100);
 		}
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	private void loadSolutions() {
 		File file = new File("solutions.dat");
 		if (!file.exists())
 			return;
-		
+
 		ObjectInputStream ois = null;
-		
+
 		try {
 			ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream("solutions.dat")));
-			mazeMap = (HashMap<String, Maze3d>)ois.readObject();
-			solutionMap = (HashMap<String, Solution<Position>>)ois.readObject();		
+			mazeMap = (HashMap<String, Maze3d>) ois.readObject();
+			solutionMap = (HashMap<String, Solution<Position>>) ois.readObject();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -311,23 +372,23 @@ public class MyModel extends CommonModel {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally{
+		} finally {
 			try {
 				ois.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}		
+		}
 	}
-	
+
 	private void saveSolutions() {
 		ObjectOutputStream oos = null;
 		try {
-		    oos = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream("solutions.dat")));
+			oos = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream("solutions.dat")));
 			oos.writeObject(mazeMap);
-			oos.writeObject(solutionMap);			
-			
+			oos.writeObject(solutionMap);
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -343,8 +404,5 @@ public class MyModel extends CommonModel {
 			}
 		}
 	}
-
-
-
 
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import algorithms.mazeGenerators.CommonMaze3dGenerator;
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Maze3dGenerator;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.CommonSearcher;
 import algorithms.search.Solution;
@@ -101,5 +102,6 @@ public interface Model {
 	 */
 	void waitUntilCloseAllFiles() throws InterruptedException;
 
+	
 
 }

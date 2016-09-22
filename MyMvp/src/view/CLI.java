@@ -37,7 +37,7 @@ public class CLI extends Observable {
 	private void printMenu() {
 		out.println("\n\n==============================================");
 		out.println("Please choose Command to run:");
-		out.println("\n\n==============================================");
+		out.println("==============================================");
 		out.flush();
 	}
 
