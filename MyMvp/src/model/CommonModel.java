@@ -23,7 +23,6 @@ public abstract class CommonModel extends Observable implements Model {
 
 		/** The solution list. */
 		protected HashMap<String, Solution<Position>> solutionMap;
-
 		/** The thread pool. */
 		protected ExecutorService threadPool;
 

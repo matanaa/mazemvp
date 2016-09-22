@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -126,9 +127,7 @@ public class MyModel extends CommonModel {
 	@Override
 	public void generateMaze(String name, int floors, int rows, int cols, CommonMaze3dGenerator generator) {
 		generateMazeRunnable generateMaze = new generateMazeRunnable(floors, rows, cols, name, generator);
-		generateMazeTasks.add(generateMaze);
-		//add the new instance of "generateMaze" into my observe list
-	//	generateMaze.addObserver(this);
+
 		//send the "generateMaze" to the thread pool and start the thread
 		threadPool.submit(generateMaze);
 	}
@@ -198,27 +197,33 @@ public class MyModel extends CommonModel {
 	 * @see model.Model#solveMaze3d(java.lang.String,
 	 * algorithms.search.CommonSearcher)
 	 */
+	
+
+	
 	@Override
 	public void solveMaze3d(String name, CommonSearcher<Position> searcher) {
-		Thread thread = new Thread(new Runnable() {
+		
+		threadPool.submit(new Callable<Solution<Position>>() {
 
 			@Override
-			public void run() {
+			public Solution<Position> call() throws Exception {
 
 				Maze3d maze = mazeMap.get(name);
 				Searchable<Position> searchableMaze = new MazeAdapter(maze);
 				Solution<Position> solution = searcher.search(searchableMaze);
 				solutionMap.put(name, solution);
-				//controller.notifySolutionIsReady(name);
+				setChanged();
 				notifyObservers(new String[] { "SolutionIsReady",name });
+				return solution;
 			}
 
 		});
-		//thread.start();
-		threadPool.submit(thread);
-
 	}
 
+	
+	
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
