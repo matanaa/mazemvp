@@ -97,10 +97,13 @@ public class MyPresenter extends CommonPresenter {
 			switch (command) {
 			case "error":
 				view.printErrorMessage(args);
-
 				break;
 			case "mazeisready":
 				view.notifyMazeIsReady(args[0]);
+				break;
+			case "solutionisready":
+				view.notifySolutionIsReady(args[0]);
+				break;
 			default:
 				break;
 			}

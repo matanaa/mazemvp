@@ -89,7 +89,6 @@ public class CommandsManager {
 			int cols = Integer.parseInt(args[3]);
 			String generator = args[4];
 			// ask the model to generate the maze
-
 			model.generateMaze(name, floors, rows, cols, getGenerator(generator));
 		}
 
@@ -104,6 +103,10 @@ public class CommandsManager {
 			HashMap<String, CommonMaze3dGenerator> generators = new HashMap<String, CommonMaze3dGenerator>();
 			generators.put("Growing", new GrowingTreeMaze3dGenerator());
 			generators.put("Simple", new SimpleMaze3dGenerator());
+			if (!generators.containsKey(generator)) {
+				view.printErrorMessage(
+						new String[] { "Arguments Error", "Unknown generator. please choose: " + generators.keySet() });
+			}
 			return generators.get(generator);
 		}
 	}

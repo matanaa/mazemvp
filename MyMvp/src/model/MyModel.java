@@ -213,7 +213,7 @@ public class MyModel extends CommonModel {
 				Solution<Position> solution = searcher.search(searchableMaze);
 				solutionMap.put(name, solution);
 				setChanged();
-				notifyObservers(new String[] { "SolutionIsReady",name });
+				notifyObservers(new String[] { "SolutionIsReady", name});
 				return solution;
 			}
 
