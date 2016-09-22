@@ -14,7 +14,13 @@ import algorithms.search.Solution;
 /**
  * The Class CommonModel - abstract class for all models
  */
+<<<<<<< HEAD
+public abstract class CommonModel extends Observable implements Model {
+
+
+=======
 public abstract class CommonModel extends Observable implements Model, Observer {
+>>>>>>> refs/remotes/origin/master
 
 	/** The maze list. */
 	protected HashMap<String, Maze3d> mazeMap;
@@ -92,11 +98,14 @@ public abstract class CommonModel extends Observable implements Model, Observer 
 
 	}
 
+<<<<<<< HEAD
+=======
 	@Override
 	public void update(Observable o, Object arg) {
 		// get some changes from my parent class
 		setChanged();
 		notifyObservers(arg);
 	}
+>>>>>>> refs/remotes/origin/master
 
 }

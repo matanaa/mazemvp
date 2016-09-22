@@ -58,7 +58,7 @@ public class MyModel extends CommonModel {
 	 * The Class generateMazeRunnable - an adapter to make the generation
 	 * process runnable on threads.
 	 */
-	class generateMazeRunnable extends Observable implements Runnable {
+	class generateMazeRunnable implements Runnable {
 
 		/** The floors, rows, colums. */
 		private int floors, rows, colums;
@@ -124,9 +124,15 @@ public class MyModel extends CommonModel {
 	public void generateMaze(String name, int floors, int rows, int cols, CommonMaze3dGenerator generator) {
 		generateMazeRunnable generateMaze = new generateMazeRunnable(floors, rows, cols, name, generator);
 		generateMazeTasks.add(generateMaze);
+<<<<<<< HEAD
+		//add the new instance of "generateMaze" into my observe list
+	//	generateMaze.addObserver(this);
+		//send the "generateMaze" to the thread pool and start the thread
+=======
 		// add the new instance of "generateMaze" into my observe list
 		generateMaze.addObserver(this);
 		// send the "generateMaze" to the thread pool and start the thread
+>>>>>>> refs/remotes/origin/master
 		threadPool.submit(generateMaze);
 	}
 
@@ -253,10 +259,18 @@ public class MyModel extends CommonModel {
 	 */
 	@Override
 	public void save_maze(String name, String file_name) {
+<<<<<<< HEAD
+		Maze3d maze = getMaze(name); //get the maze by name
+		if (maze==null){
+			notifyObservers(new String[] { "SolutionIsReady",name });
+			notifyObservers(new String[] { "error",  "maze name error", "can't find the maze "+name });
+
+=======
 		Maze3d maze = getMaze(name); // get the maze by name
 		if (maze == null) {
 			notifyObservers(new String[] { "SolutionIsReady", name });
 			notifyObservers(new String[] { "error", "maze name errorr", "can't find the maze " + name });
+>>>>>>> refs/remotes/origin/master
 
 			return;
 		}
