@@ -35,10 +35,15 @@ public abstract class CommonView extends Observable implements View, Observer   
 	 *            the output
 	 */
 	public CommonView(BufferedReader in, PrintWriter out) {
+		// set the input and output
 		this.in = in;
 		this.out = out;
+		//config the cli as observer
 		cli = new CLI(in, out);
 		cli.addObserver(this);
+		
+		
+		
 	}
 
 

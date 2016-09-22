@@ -78,39 +78,33 @@ public class MyPresenter extends CommonPresenter {
 				}
 			}
 		} else if (o == model) {
-			
+
 			// split the input to] array of single words
 			String commandsArray[] = (String[]) arg;
 			// recognizes only the first word as the command itself
 			String command = commandsArray[0].toLowerCase();
 
-			// throws error if the command isn't part of the
-			// commands list
-			if (!commands.containsKey(command)) {
-				view.printErrorMessage(new String[] { "Critical Error", "Command doesn't exist!" });
-			} else {
-				// creates the variable that will hold the arguments
-				String[] args = null;
-				// if there's more than one argument it will split
-				// it to array of single words
-				if (commandsArray.length > 1) {
-					args =new String [commandsArray.length-1];
-					for (int i=0;i<commandsArray.length-1;i++ )
-					{
-						args[i]=commandsArray[i+1];
-					}
-				}
-				switch (command) {
-				case "error":
-					view.printErrorMessage(args);
-
-					break;
-				case "MazeIsReady":
-					view.notifyMazeIsReady(args[0]);
-				default:
-					break;
+			// creates the variable that will hold the arguments
+			String[] args = null;
+			// if there's more than one argument it will split
+			// it to array of single words
+			if (commandsArray.length > 1) {
+				args = new String[commandsArray.length - 1];
+				for (int i = 0; i < commandsArray.length - 1; i++) {
+					args[i] = commandsArray[i + 1];
 				}
 			}
+			switch (command) {
+			case "error":
+				view.printErrorMessage(args);
+
+				break;
+			case "mazeisready":
+				view.notifyMazeIsReady(args[0]);
+			default:
+				break;
+			}
+
 		}
 	}
 

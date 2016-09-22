@@ -15,7 +15,7 @@ import algorithms.search.Solution;
 /**
  * The Class CommonModel - abstract class for all models
  */
-public abstract class CommonModel extends Observable implements Model {
+public abstract class CommonModel extends Observable implements Model,Observer {
 
 
 
@@ -94,6 +94,8 @@ public abstract class CommonModel extends Observable implements Model {
 		this.mazeMap = new HashMap<String, Maze3d>();
 		this.solutionMap = new HashMap<String, Solution<Position>>();
 		this.threadPool = Executors.newCachedThreadPool();
+		
+		
 	}
 
 	/*
@@ -119,5 +121,11 @@ public abstract class CommonModel extends Observable implements Model {
 	 */
 	@Override
 	public abstract Solution<Position> getMazeSolution(String name);
+	@Override
+	public void update(Observable o, Object arg) {
+		//get some changes from my parent class
+		setChanged();	
+		notifyObservers(arg);
+	}
 
 }

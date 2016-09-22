@@ -58,6 +58,7 @@ public class MyModel extends CommonModel {
 	//	properties = PropertiesLoader.getInstance().getProperties();
 		//executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
 		loadSolutions();
+		
 	}
 
 	/**
@@ -130,6 +131,9 @@ public class MyModel extends CommonModel {
 	public void generateMaze(String name, int floors, int rows, int cols, CommonMaze3dGenerator generator) {
 		generateMazeRunnable generateMaze = new generateMazeRunnable(floors, rows, cols, name, generator);
 		generateMazeTasks.add(generateMaze);
+		//add the new instance of "generateMaze" into my observe list
+		generateMaze.addObserver(this);
+		//send the "generateMaze" to the thread pool and start the thread
 		threadPool.submit(generateMaze);
 	}
 
@@ -338,6 +342,8 @@ public class MyModel extends CommonModel {
 			}
 		}
 	}
+
+
 
 
 }

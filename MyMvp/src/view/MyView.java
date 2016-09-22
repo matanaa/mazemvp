@@ -23,6 +23,9 @@ public class MyView extends CommonView {
 	 */
 	public MyView(BufferedReader in, PrintWriter out) {
 		super(in, out);
+		//in super
+		//set the input and output
+		//config the cli as observer
 	}
 
 	/*
@@ -122,7 +125,7 @@ public class MyView extends CommonView {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("yaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		//System.out.println("yaaaaaaaaaaaaaaaaaaaaaaaaaa"); just to say that matan is the king
 		if (o == cli) {
 			setChanged();
 			notifyObservers(arg);
