@@ -10,7 +10,7 @@ import view.View;
 /**
  * The Class CommonController. Abstract class for all controllers
  */
-public abstract class CommonPresenter implements Presenter, Observer{
+public abstract class CommonPresenter implements Presenter, Observer {
 
 	/** The model. */
 	protected Model model;
@@ -20,7 +20,7 @@ public abstract class CommonPresenter implements Presenter, Observer{
 
 	/** The commands manager. */
 	protected CommandsManager commandsManager;
-	
+
 	protected HashMap<String, Command> commands;
 
 	/**
@@ -34,7 +34,7 @@ public abstract class CommonPresenter implements Presenter, Observer{
 	public CommonPresenter(View view, Model model) {
 		this.model = model;
 		this.view = view;
-			
+
 		commandsManager = new CommandsManager(model, view);
 		commands = commandsManager.getCommandsMap();
 	}

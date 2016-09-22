@@ -89,7 +89,7 @@ public class CommandsManager {
 			int cols = Integer.parseInt(args[3]);
 			String generator = args[4];
 			// ask the model to generate the maze
-			
+
 			model.generateMaze(name, floors, rows, cols, getGenerator(generator));
 		}
 
@@ -129,13 +129,12 @@ public class CommandsManager {
 			String name = args[0];
 			// get the maze from the maze list
 			Maze3d maze = model.getMaze(name);
-			if (maze ==null){
+			if (maze == null) {
 				// check if maze exist
-				view.printErrorMessage(new String[] { "maze name error", "can't find the maze "+name });
-			}
-			else{
-			// sending the view a command to display the maze
-			view.displayMaze(maze);
+				view.printErrorMessage(new String[] { "maze name error", "can't find the maze " + name });
+			} else {
+				// sending the view a command to display the maze
+				view.displayMaze(maze);
 			}
 		}
 	}
@@ -201,25 +200,25 @@ public class CommandsManager {
 			// gets the maze from the maze list
 			Maze3d maze = model.getMaze(name);
 			try {
-			// each axis will initiate different function from the model
-			switch (cross) {
-			case "z":
-				view.printCross(maze.getCrossSectionByZ(Integer.parseInt(index)));
-				break;
-			case "y":
-				view.printCross(maze.getCrossSectionByY(Integer.parseInt(index)));
-				break;
-			case "x":
-				view.printCross(maze.getCrossSectionByX(Integer.parseInt(index)));
-				break;
-			default:
-				view.printErrorMessage(new String[] { "cross select", "please enter x,y or z. " });
-				break;
+				// each axis will initiate different function from the model
+				switch (cross) {
+				case "z":
+					view.printCross(maze.getCrossSectionByZ(Integer.parseInt(index)));
+					break;
+				case "y":
+					view.printCross(maze.getCrossSectionByY(Integer.parseInt(index)));
+					break;
+				case "x":
+					view.printCross(maze.getCrossSectionByX(Integer.parseInt(index)));
+					break;
+				default:
+					view.printErrorMessage(new String[] { "cross select", "please enter x,y or z. " });
+					break;
+				}
+
+			} catch (IndexOutOfBoundsException e) {
+				view.printErrorMessage(new String[] { "index select", "wrong index." });
 			}
-			
-		} catch (IndexOutOfBoundsException e) {
-			view.printErrorMessage(new String[] { "index select", "wrong index." });
-		}
 		}
 	}
 
@@ -299,6 +298,7 @@ public class CommandsManager {
 			String algorithm = args[1];
 			// will send a command to the model to solve the maze
 			model.solveMaze3d(name, getAlgorithm(algorithm));
+
 		}
 
 		/**
@@ -339,12 +339,13 @@ public class CommandsManager {
 			String name = args[0];
 			// will get the solution from the solution list
 			Solution<Position> solution = model.getMazeSolution(name);
-			if (solution==null){
-				view.printErrorMessage(new String[] { "maze solution error", "can't find the solution for maze "+name });
+			if (solution == null) {
+				view.printErrorMessage(
+						new String[] { "maze solution error", "can't find the solution for maze " + name });
 			}
 			// send command to the view to show the solution and the cost
-			else{
-			view.displayMazeSolution(solution);
+			else {
+				view.displayMazeSolution(solution);
 			}
 		}
 	}

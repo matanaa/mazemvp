@@ -6,7 +6,6 @@ import java.util.Observer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import algorithms.mazeGenerators.CommonMaze3dGenerator;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
@@ -15,9 +14,7 @@ import algorithms.search.Solution;
 /**
  * The Class CommonModel - abstract class for all models
  */
-public abstract class CommonModel extends Observable implements Model,Observer {
-
-
+public abstract class CommonModel extends Observable implements Model, Observer {
 
 	/** The maze list. */
 	protected HashMap<String, Maze3d> mazeMap;
@@ -27,8 +24,6 @@ public abstract class CommonModel extends Observable implements Model,Observer {
 
 	/** The thread pool. */
 	protected ExecutorService threadPool;
-
-
 
 	/**
 	 * Gets the maze map.
@@ -94,37 +89,13 @@ public abstract class CommonModel extends Observable implements Model,Observer {
 		this.mazeMap = new HashMap<String, Maze3d>();
 		this.solutionMap = new HashMap<String, Solution<Position>>();
 		this.threadPool = Executors.newCachedThreadPool();
-		
-		
+
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see model.Model#generateMaze(java.lang.String, int, int, int)
-	 */
-	@Override
-	public abstract void generateMaze(String name, int floors, int rows, int colums, CommonMaze3dGenerator generator);
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see model.Model#getMaze(java.lang.String)
-	 */
-	@Override
-	public abstract Maze3d getMaze(String name);
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see model.Model#getMazeSolution(java.lang.String)
-	 */
-	@Override
-	public abstract Solution<Position> getMazeSolution(String name);
 	@Override
 	public void update(Observable o, Object arg) {
-		//get some changes from my parent class
-		setChanged();	
+		// get some changes from my parent class
+		setChanged();
 		notifyObservers(arg);
 	}
 

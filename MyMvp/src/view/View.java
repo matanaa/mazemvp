@@ -1,7 +1,5 @@
 package view;
 
-import java.util.HashMap;
-
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
@@ -32,8 +30,6 @@ public interface View {
 	 * Start.
 	 */
 	void start();
-
-
 
 	/**
 	 * Prints the answers form commans.

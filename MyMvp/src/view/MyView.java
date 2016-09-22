@@ -2,14 +2,11 @@ package view;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Observable;
-import java.util.Observer;
 
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
-
 
 public class MyView extends CommonView {
 
@@ -23,9 +20,9 @@ public class MyView extends CommonView {
 	 */
 	public MyView(BufferedReader in, PrintWriter out) {
 		super(in, out);
-		//in super
-		//set the input and output
-		//config the cli as observer
+		// in super
+		// set the input and output
+		// config the cli as observer
 	}
 
 	/*
@@ -62,7 +59,6 @@ public class MyView extends CommonView {
 			out.flush();
 		}
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -122,15 +118,15 @@ public class MyView extends CommonView {
 			out.println(line);
 		}
 	}
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
-		//System.out.println("yaaaaaaaaaaaaaaaaaaaaaaaaaa"); just to say that matan is the king
+		// System.out.println("yaaaaaaaaaaaaaaaaaaaaaaaaaa"); just to say that
+		// matan is the king
 		if (o == cli) {
 			setChanged();
 			notifyObservers(arg);
 		}
-}
-
+	}
 
 }
