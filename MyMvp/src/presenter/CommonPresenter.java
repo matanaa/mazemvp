@@ -39,12 +39,6 @@ public abstract class CommonPresenter implements Presenter, Observer {
 		commands = commandsManager.getCommandsMap();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see controller.Controller#notifyMazeIsReady(java.lang.String)
-	 */
-	@Override
-	public abstract void notifyMazeIsReady(String name);
+
 
 }

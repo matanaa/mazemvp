@@ -121,8 +121,6 @@ public class MyView extends CommonView {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// System.out.println("yaaaaaaaaaaaaaaaaaaaaaaaaaa"); just to say that
-		// matan is the king
 		if (o == cli) {
 			setChanged();
 			notifyObservers(arg);
