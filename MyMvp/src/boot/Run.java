@@ -4,12 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-import model.Model;
 import model.MyModel;
 import presenter.MyPresenter;
-import presenter.Presenter;
 import view.MyView;
-import view.View;
 
 public class Run {
 

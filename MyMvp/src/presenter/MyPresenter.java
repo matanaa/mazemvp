@@ -1,19 +1,37 @@
 package presenter;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Observable;
+import java.util.Observer;
 
 import model.Model;
 import view.View;
 
-public class MyPresenter extends CommonPresenter {
+public class MyPresenter implements Observer   {
 
+	
+	/** The model. */
+	protected Model model;
+
+	/** The view. */
+	protected View view;
+
+	/** The commands manager. */
+	protected CommandsManager commandsManager;
+
+	protected HashMap<String, Command> commands;
+	
 	public MyPresenter(View view, Model model) {
-		super(view, model);
+		this.model = model;
+		this.view = view;
+
+		commandsManager = new CommandsManager(model, view);
+		commands = commandsManager.getCommandsMap();
+		
 		view.printAnswers(new String[]{model.getProperies()});
 	}
 
-	@Override
 	public void update(Observable o, Object arg) {
 		if (o == view) {
 			String commandLine = (String) arg;
