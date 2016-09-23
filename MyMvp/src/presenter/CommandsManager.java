@@ -378,6 +378,7 @@ public class CommandsManager {
 			}
 			// This just terminates the program.
 			System.exit(0);
+
 		}
 	}
 }
