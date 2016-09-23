@@ -47,27 +47,5 @@ public abstract class CommonView extends Observable implements View, Observer   
 
 
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see view.View#notifyMazeIsReady(java.lang.String)
-	 */
-	@Override
-	public abstract void notifyMazeIsReady(String name);
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see view.View#displayMaze(algorithms.mazeGenerators.Maze3d)
-	 */
-	@Override
-	public abstract void displayMaze(Maze3d maze);
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see view.View#setCommands(java.util.HashMap)
-	 */
-
 
 }

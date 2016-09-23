@@ -38,6 +38,17 @@ public class CLI extends Observable {
 		out.println("\n\n==============================================");
 		out.println("Please choose Command to run:");
 		out.println("==============================================");
+/*		
+		// the menu
+		Integer i = 1;
+		for (String command : commands.keySet()) {
+			out.println("\t" + i.toString() + ")" + command);
+			i++;
+		}*/
+		
+		// example command
+		out.println("example: generate_maze newmaze 5 5 5 Growing\n");
+		out.flush();
 		out.flush();
 	}
 

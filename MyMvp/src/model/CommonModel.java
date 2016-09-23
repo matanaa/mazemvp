@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
+import properties.Properties;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,6 +26,9 @@ public abstract class CommonModel extends Observable implements Model {
 		protected HashMap<String, Solution<Position>> solutionMap;
 		/** The thread pool. */
 		protected ExecutorService threadPool;
+		
+		
+		protected Properties properties;
 
 		/**
 		 * Gets the maze map.
@@ -93,7 +97,9 @@ public abstract class CommonModel extends Observable implements Model {
 
 		}
 
-
+		public String getProperies(){
+			return properties.toString(); 
+			}
 
 	
 }

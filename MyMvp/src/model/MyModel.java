@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -28,6 +29,7 @@ import algorithms.search.Solution;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 import properties.Properties;
+import properties.PropertiesLoader;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -42,7 +44,7 @@ public class MyModel extends CommonModel {
 	// will count how many files are open
 	protected int openFileCount = 0;
 
-	protected Properties properties;
+	
 
 	protected ExecutorService executor;
 
@@ -51,9 +53,8 @@ public class MyModel extends CommonModel {
 	 */
 	public MyModel() {
 		super();
-		// properties = PropertiesLoader.getInstance().getProperties();
-		// executor =
-		// Executors.newFixedThreadPool(properties.getNumOfThreads());
+		properties = PropertiesLoader.getInstance().getProperties();
+		executor=Executors.newFixedThreadPool(properties.getNumOfThreads());
 		loadSolutions();
 
 	}
@@ -182,6 +183,7 @@ public class MyModel extends CommonModel {
 	 * 
 	 * @see model.CommonModel#generateMaze(java.lang.String, int, int, int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void generateMaze(String name, int floors, int rows, int cols, CommonMaze3dGenerator generator) {
 		generateMazeCallable generateMaze = new generateMazeCallable(floors, rows, cols, name, generator);

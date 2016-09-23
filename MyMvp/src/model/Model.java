@@ -102,6 +102,8 @@ public interface Model {
 	 */
 	void waitUntilCloseAllFiles() throws InterruptedException;
 
+	String getProperies();
+
 	
 
 }

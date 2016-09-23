@@ -10,7 +10,7 @@ public class MyPresenter extends CommonPresenter {
 
 	public MyPresenter(View view, Model model) {
 		super(view, model);
-		// TODO Auto-generated constructor stub
+		view.printAnswers(new String[]{model.getProperies()});
 	}
 
 	/*
