@@ -367,6 +367,7 @@ public class CommandsManager {
 		 */
 		@Override
 		public void doCommand(String[] args) {
+			model.saveSolutions();
 			// finishing all threads in the model
 			model.finishThreads();
 			// closing all files in the model

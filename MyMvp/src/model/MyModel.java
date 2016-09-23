@@ -36,9 +36,8 @@ import properties.PropertiesLoader;
 /**
  * The Class MyModel.
  */
-public class MyModel extends Observable implements Model{
+public class MyModel extends Observable implements Model {
 
-	
 	/** The maze list. */
 	protected HashMap<String, Maze3d> mazeMap;
 
@@ -46,16 +45,16 @@ public class MyModel extends Observable implements Model{
 	protected HashMap<String, Solution<Position>> solutionMap;
 	/** The thread pool. */
 	protected ExecutorService threadPool;
-	
+
 	/** The generate maze tasks. */
 	protected List<generateMazeRunnable> generateMazeTasks = new ArrayList<generateMazeRunnable>();
 
 	/** The open file count. */
 	// will count how many files are open
 	protected int openFileCount = 0;
-	
+
 	protected Properties properties;
-	
+
 	protected ExecutorService executor;
 
 	/**
@@ -65,18 +64,16 @@ public class MyModel extends Observable implements Model{
 		this.mazeMap = new HashMap<String, Maze3d>();
 		this.solutionMap = new HashMap<String, Solution<Position>>();
 		this.threadPool = Executors.newCachedThreadPool();
-		
+
 		properties = PropertiesLoader.getInstance().getProperties();
-		executor=Executors.newFixedThreadPool(properties.getNumOfThreads());
+		executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
 		loadSolutions();
 
 	}
 
-
-	public Properties getProperies(){
-		return properties; 
-		}
-
+	public Properties getProperies() {
+		return properties;
+	}
 
 	/**
 	 * Gets the maze map.
@@ -135,9 +132,6 @@ public class MyModel extends Observable implements Model{
 		this.threadPool = threadPool;
 	}
 
-
-	
-	
 	/**
 	 * The Class generateMazeRunnable - an adapter to make the generation
 	 * process runnable on threads.
@@ -284,18 +278,6 @@ public class MyModel extends Observable implements Model{
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see model.Model#exit()
-	 */
-	@Override
-	public void exit() {
-		for (generateMazeRunnable task : generateMazeTasks) {
-			task.terminate();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see model.Model#loadMaze(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -311,12 +293,8 @@ public class MyModel extends Observable implements Model{
 			// using decorator pattern to get a file using our decompressor
 			in = new MyDecompressorInputStream(new FileInputStream(fileinstance));
 			// creates a max size byte array
-			byte b[] = new byte[(int) fileinstance.length() + 1]; // get the
-																	// file size
-																	// in bytes
-																	// and add 1
-																	// for the
-																	// long
+			// get the file size in bytes and add 1 for the long
+			byte b[] = new byte[(int) fileinstance.length() + 1];
 			in.read(b);
 			in.close();
 			Maze3d loaded = new Maze3d(b);
@@ -432,7 +410,6 @@ public class MyModel extends Observable implements Model{
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void loadSolutions() {
 		File file = new File("solutions.dat");
 		if (!file.exists())
@@ -463,7 +440,7 @@ public class MyModel extends Observable implements Model{
 		}
 	}
 
-	private void saveSolutions() {
+	public void saveSolutions() {
 		ObjectOutputStream oos = null;
 		try {
 			oos = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream("solutions.dat")));
@@ -486,4 +463,5 @@ public class MyModel extends Observable implements Model{
 		}
 	}
 
+	
 }

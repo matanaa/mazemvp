@@ -41,10 +41,6 @@ public interface Model {
 	 */
 	Maze3d getMaze(String name);
 
-	/**
-	 * Exit.
-	 */
-	void exit();
 
 
 	/**
@@ -102,7 +98,10 @@ public interface Model {
 	 */
 	void waitUntilCloseAllFiles() throws InterruptedException;
 
-	Properties getProperies();
+	Properties getProperies(); 
+	
+	void saveSolutions();
+
 
 	
 
