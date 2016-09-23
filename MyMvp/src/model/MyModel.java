@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,15 +36,24 @@ import properties.PropertiesLoader;
 /**
  * The Class MyModel.
  */
-public class MyModel extends CommonModel {
+public class MyModel extends Observable implements Model{
 
+	
+	/** The maze list. */
+	protected HashMap<String, Maze3d> mazeMap;
+
+	/** The solution list. */
+	protected HashMap<String, Solution<Position>> solutionMap;
+	/** The thread pool. */
+	protected ExecutorService threadPool;
+	
 	/** The generate maze tasks. */
 	protected List<generateMazeRunnable> generateMazeTasks = new ArrayList<generateMazeRunnable>();
 
 	/** The open file count. */
 	// will count how many files are open
 	protected int openFileCount = 0;
-
+	protected Properties properties;
 	
 
 	protected ExecutorService executor;
@@ -52,13 +62,83 @@ public class MyModel extends CommonModel {
 	 * Instantiates a new my model.
 	 */
 	public MyModel() {
-		super();
+		this.mazeMap = new HashMap<String, Maze3d>();
+		this.solutionMap = new HashMap<String, Solution<Position>>();
+		this.threadPool = Executors.newCachedThreadPool();
+		
 		properties = PropertiesLoader.getInstance().getProperties();
 		executor=Executors.newFixedThreadPool(properties.getNumOfThreads());
 		loadSolutions();
 
 	}
 
+
+	public String getProperies(){
+		return properties.toString(); 
+		}
+
+	
+
+	/**
+	 * Gets the maze map.
+	 *
+	 * @return the maze map
+	 */
+	public HashMap<String, Maze3d> getMazeMap() {
+		return mazeMap;
+	}
+
+	/**
+	 * Sets the maze map.
+	 *
+	 * @param mazeMap
+	 *            the maze map
+	 */
+	public void setMazeMap(HashMap<String, Maze3d> mazeMap) {
+		this.mazeMap = mazeMap;
+	}
+
+	/**
+	 * Gets the solution map.
+	 *
+	 * @return the solution map
+	 */
+	public HashMap<String, Solution<Position>> getSolutionMap() {
+		return solutionMap;
+	}
+
+	/**
+	 * Sets the solution map.
+	 *
+	 * @param solutionMap
+	 *            the solution map
+	 */
+	public void setSolutionMap(HashMap<String, Solution<Position>> solutionMap) {
+		this.solutionMap = solutionMap;
+	}
+
+	/**
+	 * Gets the thread pool.
+	 *
+	 * @return the thread pool
+	 */
+	public ExecutorService getThreadPool() {
+		return threadPool;
+	}
+
+	/**
+	 * Sets the thread pool.
+	 *
+	 * @param threadPool
+	 *            the new thread pool
+	 */
+	public void setThreadPool(ExecutorService threadPool) {
+		this.threadPool = threadPool;
+	}
+
+
+	
+	
 	/**
 	 * The Class generateMazeRunnable - an adapter to make the generation
 	 * process runnable on threads.

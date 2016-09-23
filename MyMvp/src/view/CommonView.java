@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.util.Observable;
 import java.util.Observer;
 
-import algorithms.mazeGenerators.Maze3d;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class CommonView - abstract class for all views
