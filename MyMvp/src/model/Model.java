@@ -8,6 +8,7 @@ import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.CommonSearcher;
 import algorithms.search.Solution;
+import properties.Properties;
 
 
 // TODO: Auto-generated Javadoc
@@ -101,7 +102,7 @@ public interface Model {
 	 */
 	void waitUntilCloseAllFiles() throws InterruptedException;
 
-	String getProperies();
+	Properties getProperies();
 
 	
 

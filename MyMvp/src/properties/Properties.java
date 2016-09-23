@@ -31,21 +31,24 @@ public class Properties implements Serializable {
 		this.generateMazeAlgorithm = generateMazeAlgorithm;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Properties [numOfThreads=" + numOfThreads + ", generateMazeAlgorithm=" + generateMazeAlgorithm
-				+ ", solveMazeAlgorithm=" + solveMazeAlgorithm + "]";
-	}
-
 	public String getSolveMazeAlgorithm() {
 		return solveMazeAlgorithm;
 	}
 
 	public void setSolveMazeAlgorithm(String solveMazeAlgorithm) {
 		this.solveMazeAlgorithm = solveMazeAlgorithm;
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Properties [numOfThreads=" + numOfThreads + ", generateMazeAlgorithm=" + generateMazeAlgorithm
+				+ ", solveMazeAlgorithm=" + solveMazeAlgorithm + "]";
 	}
 
 }

@@ -53,9 +53,9 @@ public class MyModel extends Observable implements Model{
 	/** The open file count. */
 	// will count how many files are open
 	protected int openFileCount = 0;
+	
 	protected Properties properties;
 	
-
 	protected ExecutorService executor;
 
 	/**
@@ -73,11 +73,10 @@ public class MyModel extends Observable implements Model{
 	}
 
 
-	public String getProperies(){
-		return properties.toString(); 
+	public Properties getProperies(){
+		return properties; 
 		}
 
-	
 
 	/**
 	 * Gets the maze map.

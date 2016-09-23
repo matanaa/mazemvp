@@ -8,9 +8,8 @@ import java.util.Observer;
 import model.Model;
 import view.View;
 
-public class MyPresenter implements Observer   {
+public class MyPresenter implements Observer {
 
-	
 	/** The model. */
 	protected Model model;
 
@@ -21,15 +20,15 @@ public class MyPresenter implements Observer   {
 	protected CommandsManager commandsManager;
 
 	protected HashMap<String, Command> commands;
-	
+
 	public MyPresenter(View view, Model model) {
 		this.model = model;
 		this.view = view;
 
 		commandsManager = new CommandsManager(model, view);
 		commands = commandsManager.getCommandsMap();
-		
-		view.printAnswers(new String[]{model.getProperies()});
+
+		view.printAnswers(new String[] { model.getProperies().toString() });
 	}
 
 	public void update(Observable o, Object arg) {

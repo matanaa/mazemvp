@@ -77,9 +77,9 @@ public class CommandsManager {
 		@Override
 		public void doCommand(String[] args) {
 			// will send error if not enough args has been sent
-			if (args.length != 5) {
-				view.printErrorMessage(new String[] { "Arguments Error",
-						"Please enter <maze name> <floors> <rows> <cols> <generator>" });
+			if (args.length != 4) {
+				view.printErrorMessage(
+						new String[] { "Arguments Error", "Please enter <maze name> <floors> <rows> <cols>" });
 				return;
 			}
 			// parsing the args
@@ -87,9 +87,9 @@ public class CommandsManager {
 			int floors = Integer.parseInt(args[1]);
 			int rows = Integer.parseInt(args[2]);
 			int cols = Integer.parseInt(args[3]);
-			String generator = args[4];
+			// String generator = args[4];
 			// ask the model to generate the maze
-			model.generateMaze(name, floors, rows, cols, getGenerator(generator));
+			model.generateMaze(name, floors, rows, cols, getGenerator(model.getProperies().getGenerateMazeAlgorithm()));
 		}
 
 		/**
@@ -292,15 +292,16 @@ public class CommandsManager {
 		@Override
 		public void doCommand(String[] args) {
 			// will send error if not enough args has been sent
-			if (args.length != 2) {
-				view.printErrorMessage(new String[] { "Arguments Error", "Please enter Maze name and Algoritem" });
+			if (args.length != 1) {
+				view.printErrorMessage(new String[] { "Arguments Error", "Please enter Maze name" });
 				return;
 			}
 			// parsing the args
 			String name = args[0];
-			String algorithm = args[1];
+			// String algorithm = args[1];
 			// will send a command to the model to solve the maze
-			model.solveMaze3d(name, getAlgorithm(algorithm));
+			// model.solveMaze3d(name, getAlgorithm(algorithm));
+			model.solveMaze3d(name, getAlgorithm(model.getProperies().getSolveMazeAlgorithm()));
 
 		}
 
@@ -316,7 +317,7 @@ public class CommandsManager {
 			HashMap<String, CommonSearcher<Position>> commands = new HashMap<String, CommonSearcher<Position>>();
 			commands.put("bfs", new BFS<Position>());
 			commands.put("dfs", new DFS<Position>());
-			return commands.get(algName);
+			return commands.get(algName.toLowerCase());
 		}
 	}
 
