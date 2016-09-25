@@ -1,5 +1,7 @@
 package view;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -9,12 +11,17 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Shell;
 
+import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 
 public class MazeDisplay extends Canvas {
-	
+	private Maze3d maze;
 	private int[][] mazeData;
 	private Character character ;
+	private SpecialCube startCube =new SpecialCube("start");
+	private SpecialCube goalCube =new SpecialCube("goal");
+	
+	
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
 		character = new Character();
@@ -30,26 +37,47 @@ public class MazeDisplay extends Canvas {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				Position pos = character.getPos();
+				ArrayList<Position> moves =maze.getPossibleMoves(pos);
 				switch (e.keyCode) {
 				case SWT.ARROW_RIGHT:					
-					//character.setPos(new Position(pos.x + 1, pos.y));
+					if (moves.contains(new Position(pos.z, pos.y, pos.x+1))){
 					character.moveRight();
 					redraw();
+					}
 					break;
 				
-				case SWT.ARROW_LEFT:					
+				case SWT.ARROW_LEFT:	
+					if (moves.contains(new Position(pos.z, pos.y, pos.x-1))){
 					character.moveLeft();
 					redraw();
+					}
 					break;
-				case SWT.ARROW_UP:					
+				case SWT.ARROW_UP:	
+					if (moves.contains(new Position(pos.z, pos.y-1, pos.x))){
 					character.moveForeword();
 					redraw();
+					}
 					break;
 				case SWT.ARROW_DOWN:					
+					if (moves.contains(new Position(pos.z, pos.y+1, pos.x))){
 					character.moveBackward();
 					redraw();
+					}
 					break;
-				
+				case SWT.PAGE_UP:
+					if (moves.contains(new Position(pos.z+1, pos.y, pos.x))){
+						mazeData = maze.getCrossSectionByZ(pos.z+1);
+					character.moveUp();
+					redraw();
+					}
+					break;
+				case SWT.PAGE_DOWN:
+					if (moves.contains(new Position(pos.z-1, pos.y, pos.x))){
+						mazeData = maze.getCrossSectionByZ(pos.z-1);
+					character.moveDown();
+					redraw();
+					}
+					break;
 				}
 				
 				
@@ -81,18 +109,31 @@ public class MazeDisplay extends Canvas {
 				          if(mazeData[i][j]!=0)
 				              e.gc.fillRectangle(x,y,w,h);
 				      }
-
+				   
+				   if (character.getPos().z == maze.getStartPos().z){
+				   startCube.draw(w, h, e.gc,maze.getStartPos());
+				   }
+				   
+				   if (character.getPos().z == maze.getGoalPos().z){
+				   goalCube.draw(w, h, e.gc,maze.getGoalPos());
+				   }
 				   character.draw(w, h, e.gc);
+				  
+				   
 			}
 		});
 	}
 	
 	public void setCharacterPos(Position pos){
-		character.setPos(pos);
+		character.setPos(new Position(pos.z, pos.y, pos.x));
 	}
 	
 	public void setMazeData(int[][] mazeData) {
 		this.mazeData = mazeData;
 		this.redraw();
+	}
+
+	public void setMaze(Maze3d maze) {
+this.maze =maze;		
 	}
 }

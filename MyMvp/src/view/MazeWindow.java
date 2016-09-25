@@ -126,24 +126,13 @@ public class MazeWindow extends BasicWindow implements View {
 
 	@Override
 	public void displayMaze(Maze3d maze) {
-		
-//		int[][] mazeData={
-//				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//				{1,0,0,0,0,0,0,0,1,1,0,1,0,0,1},
-//				{0,0,1,1,1,1,1,0,0,1,0,1,0,1,1},
-//				{1,1,1,0,0,0,1,0,1,1,0,1,0,0,1},
-//				{1,0,1,0,1,1,1,0,0,0,0,1,1,0,1},
-//				{1,1,0,0,0,1,0,0,1,1,1,1,0,0,1},
-//				{1,0,0,1,0,0,1,0,0,0,0,1,0,1,1},
-//				{1,0,1,1,0,1,1,0,1,1,0,0,0,1,1},
-//				{1,0,0,0,0,0,0,0,0,1,0,1,0,0,1},
-//				{1,1,1,1,1,1,1,1,1,1,1,1,0,1,1},
-//			};
-		int[][] mazeData=maze.getCrossSectionByX(maze.getStartPos().z);
+		mazeDisplay.setMaze(maze);
+		int[][] mazeData=maze.getCrossSectionByZ(maze.getStartPos().z);
 		mazeDisplay.setCharacterPos(maze.getStartPos());
 		//System.out.println(maze.getStartPos());
 		//System.out.println(maze);
 		mazeDisplay.setMazeData(mazeData);
+		
 	}
 
 
