@@ -42,7 +42,7 @@ public class MyPresenter implements Observer {
 			// throws error if the command isn't part of the
 			// commands list
 			if (command.equals("display_maze")){
-				view.displayMaze(model.getMaze(commandsArray[0]));
+				view.displayMaze(model.getMaze(commandsArray[1]));
 			}
 			else if (!commands.containsKey(command)) {
 				view.printErrorMessage(new String[] { "Critical Error", "Command doesn't exist!" });

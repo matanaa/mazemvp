@@ -3,6 +3,7 @@ package view;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -33,6 +34,8 @@ public class MazeWindow extends BasicWindow implements View {
 		Button btnGenerateMaze = new Button(btnGroup, SWT.PUSH);
 		btnGenerateMaze.setText("Generate maze");	
 		
+
+		
 		btnGenerateMaze.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -51,6 +54,11 @@ public class MazeWindow extends BasicWindow implements View {
 		Button btnSolveMaze = new Button(btnGroup, SWT.PUSH);
 		btnSolveMaze.setText("Solve maze");
 		
+		mazeDisplay = new MazeDisplay(this.shell, SWT.NONE);
+		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		mazeDisplay.setFocus();
+		
+		
 	}
 
 	protected void showGenerateMazeOptions() {
@@ -65,13 +73,13 @@ public class MazeWindow extends BasicWindow implements View {
 		lblName.setText("Name: ");
 		Text txtName = new Text(shell, SWT.BORDER);
 		
-		Label lblRows = new Label(shell, SWT.NONE);
-		lblRows.setText("Floors: ");
-		Text txtRows = new Text(shell, SWT.BORDER);
-		
 		Label lblFloors = new Label(shell, SWT.NONE);
 		lblFloors.setText("Floors: ");
 		Text txtFloors = new Text(shell, SWT.BORDER);
+		
+		Label lblRows = new Label(shell, SWT.NONE);
+		lblRows.setText("Rows: ");
+		Text txtRows = new Text(shell, SWT.BORDER);
 		
 		Label lblCols = new Label(shell, SWT.NONE);
 		lblCols.setText("Cols: ");
@@ -95,7 +103,7 @@ public class MazeWindow extends BasicWindow implements View {
 			}
 		});
 		
-		mazeDisplay = new MazeDisplay(shell, SWT.NONE);			
+
 		shell.open();		
 	}
 
@@ -119,18 +127,20 @@ public class MazeWindow extends BasicWindow implements View {
 	@Override
 	public void displayMaze(Maze3d maze) {
 		
-		int[][] mazeData={
-				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				{1,0,0,0,0,0,0,0,1,1,0,1,0,0,1},
-				{0,0,1,1,1,1,1,0,0,1,0,1,0,1,1},
-				{1,1,1,0,0,0,1,0,1,1,0,1,0,0,1},
-				{1,0,1,0,1,1,1,0,0,0,0,1,1,0,1},
-				{1,1,0,0,0,1,0,0,1,1,1,1,0,0,1},
-				{1,0,0,1,0,0,1,0,0,0,0,1,0,1,1},
-				{1,0,1,1,0,1,1,0,1,1,0,0,0,1,1},
-				{1,0,0,0,0,0,0,0,0,1,0,1,0,0,1},
-				{1,1,1,1,1,1,1,1,1,1,1,1,0,1,1},
-			};
+//		int[][] mazeData={
+//				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+//				{1,0,0,0,0,0,0,0,1,1,0,1,0,0,1},
+//				{0,0,1,1,1,1,1,0,0,1,0,1,0,1,1},
+//				{1,1,1,0,0,0,1,0,1,1,0,1,0,0,1},
+//				{1,0,1,0,1,1,1,0,0,0,0,1,1,0,1},
+//				{1,1,0,0,0,1,0,0,1,1,1,1,0,0,1},
+//				{1,0,0,1,0,0,1,0,0,0,0,1,0,1,1},
+//				{1,0,1,1,0,1,1,0,1,1,0,0,0,1,1},
+//				{1,0,0,0,0,0,0,0,0,1,0,1,0,0,1},
+//				{1,1,1,1,1,1,1,1,1,1,1,1,0,1,1},
+//			};
+		int[][] mazeData=maze.getCrossSectionByZ(maze.getStartPos().z);
+		mazeDisplay.setCharacterPos(maze.getStartPos());
 		mazeDisplay.setMazeData(mazeData);
 	}
 
