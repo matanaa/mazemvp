@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 
 import model.MyModel;
 import presenter.MyPresenter;
+import view.MazeWindow;
 import view.MyView;
 
 public class Run {
@@ -15,7 +16,8 @@ public class Run {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(System.out);
 				
-		MyView view = new MyView(in, out);
+		//MyView view = new MyView(in, out);
+		MazeWindow view = new MazeWindow();
 		MyModel model = new MyModel();
 		
 		MyPresenter presenter = new MyPresenter(view, model);

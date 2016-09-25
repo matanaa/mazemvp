@@ -28,7 +28,7 @@ public class MyPresenter implements Observer {
 		commandsManager = new CommandsManager(model, view);
 		commands = commandsManager.getCommandsMap();
 
-		view.printAnswers(new String[] { model.getProperies().toString() });
+		//view.printAnswers(new String[] { model.getProperies().toString() });
 	}
 
 	public void update(Observable o, Object arg) {
@@ -41,7 +41,10 @@ public class MyPresenter implements Observer {
 
 			// throws error if the command isn't part of the
 			// commands list
-			if (!commands.containsKey(command)) {
+			if (command.equals("display_maze")){
+				view.displayMaze(model.getMaze(commandsArray[0]));
+			}
+			else if (!commands.containsKey(command)) {
 				view.printErrorMessage(new String[] { "Critical Error", "Command doesn't exist!" });
 			} else {
 				// creates the variable that will hold the arguments
