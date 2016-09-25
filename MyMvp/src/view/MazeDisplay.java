@@ -108,13 +108,13 @@ public class MazeDisplay extends Canvas {
 				          int y=i*h;
 				          if(mazeData[i][j]!=0)
 				              e.gc.fillRectangle(x,y,w,h);
-/*				          else {
-				        	  ArrayList<Position> moves =maze.getPossibleMoves(new Position(character.getPos().z, y, x));
-								if (moves.contains(new Position(character.getPos().z+1, y, x))){
-									stairUp.draw(w, h, e.gc,(new Position(character.getPos().z+1, y, x)));
+			          else {
+				        	  ArrayList<Position> moves =maze.getPossibleMoves(new Position(character.getPos().z, i, j));
+								if (moves.contains(new Position(character.getPos().z+1, i, j))){
+									stairUp.draw(w, h, e.gc,(new Position(character.getPos().z+1, i, j)));
 								}
 				        	  
-				          }*/
+				          }
 				      }
 				   
 				   if (character.getPos().z == maze.getStartPos().z){
