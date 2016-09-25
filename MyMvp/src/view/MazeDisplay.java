@@ -18,9 +18,9 @@ public class MazeDisplay extends Canvas {
 	private Maze3d maze;
 	private int[][] mazeData;
 	private Character character ;
-	private SpecialCube startCube =new SpecialCube("start");
-	private SpecialCube goalCube =new SpecialCube("goal");
-	
+	private SpecialCube startCube =new SpecialCube("start.jpg");
+	private SpecialCube goalCube =new SpecialCube("goal.jpg");
+	private SpecialCube stairUp =new SpecialCube("stairs_up.png");
 	
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
@@ -108,6 +108,13 @@ public class MazeDisplay extends Canvas {
 				          int y=i*h;
 				          if(mazeData[i][j]!=0)
 				              e.gc.fillRectangle(x,y,w,h);
+/*				          else {
+				        	  ArrayList<Position> moves =maze.getPossibleMoves(new Position(character.getPos().z, y, x));
+								if (moves.contains(new Position(character.getPos().z+1, y, x))){
+									stairUp.draw(w, h, e.gc,(new Position(character.getPos().z+1, y, x)));
+								}
+				        	  
+				          }*/
 				      }
 				   
 				   if (character.getPos().z == maze.getStartPos().z){

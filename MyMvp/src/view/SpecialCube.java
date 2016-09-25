@@ -11,7 +11,7 @@ public class SpecialCube {
 	private Image img;
 	public SpecialCube(String type) {
 		super();
-		ImageData ideaData = new ImageData("lib/images/"+type+".jpg");
+		ImageData ideaData = new ImageData("lib/images/"+type);
 		 int whitePixel = ideaData.palette.getPixel(new RGB(255,255,255));
 		 ideaData.transparentPixel = whitePixel;
 		 img = new Image(null,ideaData);
