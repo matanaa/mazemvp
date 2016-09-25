@@ -49,7 +49,9 @@ public class MazeDisplay extends Canvas {
 					character.moveBackward();
 					redraw();
 					break;
+				
 				}
+				
 				
 				
 			}
