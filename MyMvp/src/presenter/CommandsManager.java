@@ -89,7 +89,7 @@ public class CommandsManager {
 			int cols = Integer.parseInt(args[3]);
 			// String generator = args[4];
 			// ask the model to generate the maze
-			model.generateMaze(name, floors, rows, cols, getGenerator(model.getProperies().getGenerateMazeAlgorithm()));
+			model.generateMaze(name, floors, rows, cols, getGenerator(model.getProperties().getGenerateMazeAlgorithm()));
 		}
 
 		/**
@@ -301,7 +301,7 @@ public class CommandsManager {
 			// String algorithm = args[1];
 			// will send a command to the model to solve the maze
 			// model.solveMaze3d(name, getAlgorithm(algorithm));
-			model.solveMaze3d(name, getAlgorithm(model.getProperies().getSolveMazeAlgorithm()));
+			model.solveMaze3d(name, getAlgorithm(model.getProperties().getSolveMazeAlgorithm()));
 
 		}
 

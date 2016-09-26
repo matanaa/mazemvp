@@ -10,15 +10,15 @@ import algorithms.search.CommonSearcher;
 import algorithms.search.Solution;
 import properties.Properties;
 
-
 // TODO: Auto-generated Javadoc
 /**
- * The Interface Model.
+ * The Interface Model - Interface that holds all the function that a model
+ * should implement
  */
 public interface Model {
 
 	/**
-	 * Generate maze.
+	 * Generate maze - Will generate a new Maze3d
 	 *
 	 * @param name
 	 *            the name
@@ -28,7 +28,8 @@ public interface Model {
 	 *            the rows
 	 * @param colums
 	 *            the colums
-	 * @param maze3dGenerator
+	 * @param generator
+	 *            the generator
 	 */
 	void generateMaze(String name, int floors, int rows, int colums, CommonMaze3dGenerator generator);
 
@@ -41,10 +42,8 @@ public interface Model {
 	 */
 	Maze3d getMaze(String name);
 
-
-
 	/**
-	 * Load maze.
+	 * Load maze - Will load a maze from a file to a name you choose
 	 *
 	 * @param file_name
 	 *            the file name
@@ -58,7 +57,7 @@ public interface Model {
 	void loadMaze(String file_name, String name) throws FileNotFoundException, IOException;
 
 	/**
-	 * Solve maze 3 d.
+	 * Solve maze 3 d - Solve a maze using one of the searchers
 	 *
 	 * @param name
 	 *            the name
@@ -68,7 +67,7 @@ public interface Model {
 	void solveMaze3d(String name, CommonSearcher<Position> commonSearcher);
 
 	/**
-	 * Gets the maze solution.
+	 * Gets the maze solution - Only if there is a solution to the maze
 	 *
 	 * @param name
 	 *            the name
@@ -82,7 +81,7 @@ public interface Model {
 	void finishThreads();
 
 	/**
-	 * Save maze.
+	 * Save maze - to a file
 	 *
 	 * @param name
 	 *            the name
@@ -93,16 +92,22 @@ public interface Model {
 
 	/**
 	 * Wait until close all files.
-	 * 
+	 *
 	 * @throws InterruptedException
+	 *             the interrupted exception
 	 */
 	void waitUntilCloseAllFiles() throws InterruptedException;
 
-	Properties getProperies(); 
-	
+	/**
+	 * Gets the properties.
+	 *
+	 * @return the properties
+	 */
+	Properties getProperties();
+
+	/**
+	 * Save solutions.
+	 */
 	void saveSolutions();
-
-
-	
 
 }

@@ -34,15 +34,17 @@ import properties.PropertiesLoader;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class MyModel.
+ * The Class MyModel - The class that implements all the functions for a model
+ * of a maze3d game
  */
 public class MyModel extends Observable implements Model {
 
-	/** The maze list. */
+	/** The maze list - list of all mazes saved in the game */
 	protected HashMap<String, Maze3d> mazeMap;
 
-	/** The solution list. */
+	/** The solution list list of all the solution for those mazes. */
 	protected HashMap<String, Solution<Position>> solutionMap;
+
 	/** The thread pool. */
 	protected ExecutorService threadPool;
 
@@ -53,8 +55,10 @@ public class MyModel extends Observable implements Model {
 	// will count how many files are open
 	protected int openFileCount = 0;
 
+	/** The properties. */
 	protected Properties properties;
 
+	/** The executor. */
 	protected ExecutorService executor;
 
 	/**
@@ -71,7 +75,12 @@ public class MyModel extends Observable implements Model {
 
 	}
 
-	public Properties getProperies() {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see model.Model#getProperties()
+	 */
+	public Properties getProperties() {
 		return properties;
 	}
 
@@ -193,6 +202,9 @@ public class MyModel extends Observable implements Model {
 		}
 	}
 
+	/**
+	 * The Class generateMazeCallable.
+	 */
 	class generateMazeCallable implements Callable {
 
 		/** The floors, rows, colums. */
@@ -410,6 +422,9 @@ public class MyModel extends Observable implements Model {
 		}
 	}
 
+	/**
+	 * Load solutions.
+	 */
 	private void loadSolutions() {
 		File file = new File("solutions.dat");
 		if (!file.exists())
@@ -440,6 +455,11 @@ public class MyModel extends Observable implements Model {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see model.Model#saveSolutions()
+	 */
 	public void saveSolutions() {
 		ObjectOutputStream oos = null;
 		try {
@@ -463,5 +483,4 @@ public class MyModel extends Observable implements Model {
 		}
 	}
 
-	
 }
