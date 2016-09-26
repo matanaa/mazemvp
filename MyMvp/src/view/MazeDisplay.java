@@ -22,7 +22,7 @@ public class MazeDisplay extends Canvas {
 	private SpecialCube goalCube = new SpecialCube("goal.jpg");
 	private SpecialCube stairUp = new SpecialCube("stairs_up.png");
 	private SpecialCube stairDown = new SpecialCube("stairs_down.png");
-
+	private SpecialCube wallCube = new SpecialCube("wall.png");
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
 		character = new Character();
@@ -105,13 +105,15 @@ public class MazeDisplay extends Canvas {
 						int x = j * w;
 						int y = i * h;
 						if (mazeData[i][j] != 0) {
-							e.gc.fillRectangle(x, y, w, h);
+						//	e.gc.fillRectangle(x, y, w, h);
+							wallCube.draw(w, h, e.gc, (new Position(character.getPos().z + 1, i, j)));
 						} else {
+							//check for staris
 							ArrayList<Position> moves = maze.getPossibleMoves(new Position(character.getPos().z, i, j));
-							if (moves.contains(new Position(character.getPos().z + 1, i, j))) {
+							if (moves.contains(new Position(character.getPos().z + 1, i, j))) {//up
 								stairUp.draw(w, h, e.gc, (new Position(character.getPos().z + 1, i, j)));
 							} 
-							else if (moves.contains(new Position(character.getPos().z - 1, i, j))) {
+							else if (moves.contains(new Position(character.getPos().z - 1, i, j))) {//down
 								stairDown.draw(w, h, e.gc, (new Position(character.getPos().z - 1, i, j)));
 							}
 
@@ -143,5 +145,7 @@ public class MazeDisplay extends Canvas {
 
 	public void setMaze(Maze3d maze) {
 		this.maze = maze;
+		setMazeData(maze.getCrossSectionByZ(maze.getStartPos().z));
+		setCharacterPos(maze.getStartPos());
 	}
 }
