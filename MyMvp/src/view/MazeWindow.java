@@ -69,7 +69,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
-		mazeDisplay = new MazeDisplay(this.shell, SWT.NONE);
+		mazeDisplay = new MazeDisplay(this.shell, SWT.DOUBLE_BUFFERED);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		mazeDisplay.setFocus();
 

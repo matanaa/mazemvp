@@ -49,7 +49,7 @@ public class MyModel extends Observable implements Model {
 	protected ExecutorService threadPool;
 
 	/** The generate maze tasks. */
-	protected List<generateMazeRunnable> generateMazeTasks = new ArrayList<generateMazeRunnable>();
+	//protected List<generateMazeRunnable> generateMazeTasks = new ArrayList<generateMazeRunnable>();
 
 	/** The open file count. */
 	// will count how many files are open
@@ -65,12 +65,13 @@ public class MyModel extends Observable implements Model {
 	 * Instantiates a new my model.
 	 */
 	public MyModel() {
+		properties = PropertiesLoader.getInstance().getProperties();
 		this.mazeMap = new HashMap<String, Maze3d>();
 		this.solutionMap = new HashMap<String, Solution<Position>>();
-		this.threadPool = Executors.newCachedThreadPool();
+		this.threadPool =  Executors.newFixedThreadPool(properties.getNumOfThreads());
 
-		properties = PropertiesLoader.getInstance().getProperties();
-		executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
+		
+		//executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
 		loadSolutions();
 
 	}

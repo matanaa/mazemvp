@@ -11,26 +11,32 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
+import algorithms.search.State;
 
 public class MazeDisplay extends Canvas {
 	private Maze3d maze;
 	private int[][] mazeData;
+	protected boolean win = false;
 	private Character character;
 	private SpecialCube startCube = new SpecialCube("start.jpg");
 	private SpecialCube goalCube = new SpecialCube("goal.jpg");
 	private SpecialCube stairUp = new SpecialCube("stairs_up.png");
 	private SpecialCube stairDown = new SpecialCube("stairs_down.png");
 	private SpecialCube wallCube = new SpecialCube("wall.png");
+	private SpecialCube roadCube =new SpecialCube("road.jpg");
+	
+
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
 		character = new Character();
 		character.setPos(new Position(0, 0, 0));
-		
+
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -83,6 +89,8 @@ public class MazeDisplay extends Canvas {
 						redraw();
 					}
 					break;
+				default:
+					break;
 				}
 
 			}
@@ -95,7 +103,7 @@ public class MazeDisplay extends Canvas {
 				if (mazeData == null)
 					return;
 
-				e.gc.setForeground(new Color(null, 0, 0, 0));	
+				e.gc.setForeground(new Color(null, 0, 0, 0));
 				e.gc.setBackground(new Color(null, 0, 0, 0));
 
 				int width = getSize().x;
@@ -109,15 +117,15 @@ public class MazeDisplay extends Canvas {
 						int x = j * w;
 						int y = i * h;
 						if (mazeData[i][j] != 0) {
-						//	e.gc.fillRectangle(x, y, w, h);
+							// e.gc.fillRectangle(x, y, w, h);
 							wallCube.draw(w, h, e.gc, (new Position(character.getPos().z + 1, i, j)));
 						} else {
-							//check for staris
+							// check for staris
 							ArrayList<Position> moves = maze.getPossibleMoves(new Position(character.getPos().z, i, j));
-							if (moves.contains(new Position(character.getPos().z + 1, i, j))) {//up
+							roadCube.draw(w, h, e.gc, (new Position(character.getPos().z + 1, i, j)));
+							if (moves.contains(new Position(character.getPos().z + 1, i, j))) {// up
 								stairUp.draw(w, h, e.gc, (new Position(character.getPos().z + 1, i, j)));
-							} 
-							else if (moves.contains(new Position(character.getPos().z - 1, i, j))) {//down
+							} else if (moves.contains(new Position(character.getPos().z - 1, i, j))) {// down
 								stairDown.draw(w, h, e.gc, (new Position(character.getPos().z - 1, i, j)));
 							}
 
@@ -134,12 +142,26 @@ public class MazeDisplay extends Canvas {
 				}
 				character.draw(w, h, e.gc);
 
+				if (character.getPos().equals(maze.getGoalPos()) && !win) {
+
+					MessageBox msgBox = new MessageBox(new Shell(), SWT.ICON_INFORMATION);
+
+					msgBox.setText("win!");
+
+					msgBox.setMessage("win!");
+
+					msgBox.open();
+
+					win = true;
+
+				}
+
 			}
 		});
 	}
 
 	public void setCharacterPos(Position pos) {
-		character.setPos(new Position(pos.z, pos.y, pos.x));	
+		character.setPos(new Position(pos.z, pos.y, pos.x));
 	}
 
 	public void setMazeData(int[][] mazeData) {
@@ -149,40 +171,43 @@ public class MazeDisplay extends Canvas {
 
 	public void setMaze(Maze3d maze) {
 		this.maze = maze;
-		System.out.println(maze);
+
 		setMazeData(maze.getCrossSectionByZ(maze.getStartPos().z));
 		setCharacterPos(maze.getStartPos());
 	}
-	
-	
-	public void printSolution (Solution<Position> solution){
-		
-		System.out.println(solution);
+
+	public void printSolution(Solution<Position> solution) {
+
+		// i=solution.getSolution().indexOf(new State<Position>
+		// (character.getPos()) );
+
 		TimerTask task = new TimerTask() {
-			int i=0;
+			int i = 0;
+
 			@Override
-			public void run() {	
-				getDisplay().syncExec(new Runnable() {					
+			public void run() {
+				getDisplay().syncExec(new Runnable() {
 
 					@Override
 					public void run() {
-						
-						if (i==solution.getSolution().size()){
+
+						if (i == solution.getSolution().size()) {
+							cancel();
 							return;
-							//TODO: fix this line
+							// TODO: fix this line
 						}
-							
+
 						character.setPos(solution.getSolution().get(i++).getState());
 						setMazeData(maze.getCrossSectionByZ(character.getPos().z));
 						redraw();
 					}
 				});
-				
+
 			}
 		};
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 500);
-		
+
 	}
-	
+
 }
