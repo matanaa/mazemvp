@@ -173,6 +173,7 @@ public class MazeDisplay extends Canvas {
 						}
 							
 						character.setPos(solution.getSolution().get(i++).getState());
+						setMazeData(maze.getCrossSectionByZ(character.getPos().z));
 						redraw();
 					}
 				});
