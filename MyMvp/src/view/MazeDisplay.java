@@ -24,7 +24,7 @@ public class MazeDisplay extends Canvas {
 	private int[][] mazeData;
 	protected boolean win = false;
 	private Character character;
-	private SpecialCube startCube = new SpecialCube("start.jpg");
+	private SpecialCube startCube = new SpecialCube("start.png");
 	private SpecialCube goalCube = new SpecialCube("goal.jpg");
 	private SpecialCube stairUp = new SpecialCube("stairs_up.png");
 	private SpecialCube stairDown = new SpecialCube("stairs_down.png");
