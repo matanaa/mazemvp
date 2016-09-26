@@ -1,6 +1,8 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -13,6 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 
 public class MazeDisplay extends Canvas {
 	private Maze3d maze;
@@ -27,6 +30,7 @@ public class MazeDisplay extends Canvas {
 		super(parent, style);
 		character = new Character();
 		character.setPos(new Position(0, 0, 0));
+		
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -91,7 +95,7 @@ public class MazeDisplay extends Canvas {
 				if (mazeData == null)
 					return;
 
-				e.gc.setForeground(new Color(null, 0, 0, 0));
+				e.gc.setForeground(new Color(null, 0, 0, 0));	
 				e.gc.setBackground(new Color(null, 0, 0, 0));
 
 				int width = getSize().x;
@@ -135,7 +139,7 @@ public class MazeDisplay extends Canvas {
 	}
 
 	public void setCharacterPos(Position pos) {
-		character.setPos(new Position(pos.z, pos.y, pos.x));
+		character.setPos(new Position(pos.z, pos.y, pos.x));	
 	}
 
 	public void setMazeData(int[][] mazeData) {
@@ -145,7 +149,39 @@ public class MazeDisplay extends Canvas {
 
 	public void setMaze(Maze3d maze) {
 		this.maze = maze;
+		System.out.println(maze);
 		setMazeData(maze.getCrossSectionByZ(maze.getStartPos().z));
 		setCharacterPos(maze.getStartPos());
 	}
+	
+	
+	public void printSolution (Solution<Position> solution){
+		
+		System.out.println(solution);
+		TimerTask task = new TimerTask() {
+			int i=0;
+			@Override
+			public void run() {	
+				getDisplay().syncExec(new Runnable() {					
+
+					@Override
+					public void run() {
+						
+						if (i==solution.getSolution().size()){
+							return;
+							//TODO: fix this line
+						}
+							
+						character.setPos(solution.getSolution().get(i++).getState());
+						redraw();
+					}
+				});
+				
+			}
+		};
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(task, 0, 500);
+		
+	}
+	
 }

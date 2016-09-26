@@ -39,7 +39,8 @@ public class Character {
 	}
 
 	public void setPos(Position pos) {
-		this.pos = pos;
+		this.pos = new Position(pos.z, pos.y, pos.x);
+		
 	}
 
 	public void draw(int cellWidth, int cellHeight, GC gc) {

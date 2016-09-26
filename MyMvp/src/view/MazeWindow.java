@@ -20,11 +20,13 @@ import algorithms.search.Solution;
 public class MazeWindow extends BasicWindow implements View {
 
 	private MazeDisplay mazeDisplay;
+	private String mazeName;
 
 	@Override
 	protected void initWidgets() {
 		GridLayout gridLayout = new GridLayout(2, false);
 		shell.setLayout(gridLayout);
+		shell.setText("MaTan & Snir MaZe 3D");
 
 		Composite btnGroup = new Composite(shell, SWT.BORDER);
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
@@ -48,8 +50,25 @@ public class MazeWindow extends BasicWindow implements View {
 		});
 
 		Button btnSolveMaze = new Button(btnGroup, SWT.PUSH);
+		
 		btnSolveMaze.setText("Solve maze");
+		btnSolveMaze.addSelectionListener(new SelectionListener() {
 
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				if (mazeName!=null){
+					setChanged();
+				notifyObservers("solve " + mazeName);
+				}
+
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		mazeDisplay = new MazeDisplay(this.shell, SWT.NONE);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		mazeDisplay.setFocus();
@@ -114,6 +133,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 				setChanged();
 				notifyObservers("display_maze " + name);
+				mazeName =name;
 
 			}
 		});
@@ -152,17 +172,20 @@ public class MazeWindow extends BasicWindow implements View {
 
 	@Override
 	public void notifySolutionIsReady(String name) {
-		MessageBox msgBox = new MessageBox(shell, SWT.ICON_INFORMATION);
-		msgBox.setText("Solution Is Ready");
-		msgBox.setMessage("The solution for " + name + " is ready!");
-		msgBox.open();
+//		MessageBox msgBox = new MessageBox(shell, SWT.ICON_INFORMATION);
+//		msgBox.setText("Solution Is Ready");
+//		msgBox.setMessage("The solution for " + name + " is ready!");
+//		msgBox.open();
+		setChanged();
+		notifyObservers("display_solution "+ name );
+
+		
 
 	}
 
 	@Override
 	public void displayMazeSolution(Solution<Position> solution) {
-		// TODO Auto-generated method stub
-
+		mazeDisplay.printSolution(solution);
 	}
 
 	@Override
