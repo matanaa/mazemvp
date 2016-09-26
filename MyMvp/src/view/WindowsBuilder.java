@@ -13,7 +13,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class WindowsBuilder {
+
+//WindowsBuilder propwin =new WindowsBuilder(properties);
+//propwin.buildWindows();
+public class WindowsBuilder<T> {
+	
+	
 	XMLEncoder xmlEncoder = null;
 	ByteArrayOutputStream baos;
 	int len=0;
@@ -65,6 +70,7 @@ public class WindowsBuilder {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				
 							}
 
 			@Override
@@ -76,7 +82,7 @@ public class WindowsBuilder {
 
 		shell.open();
 	}
-	public String getXml(){
+	private String getXml(){
 		return baos.toString();
 	}
 	

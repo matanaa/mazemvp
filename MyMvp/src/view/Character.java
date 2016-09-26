@@ -1,5 +1,7 @@
 package view;
 
+import java.io.Serializable;
+
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -7,7 +9,11 @@ import org.eclipse.swt.graphics.RGB;
 
 import algorithms.mazeGenerators.Position;
 
-public class Character {
+public class Character implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Position pos;
 	private Image img;
 // try animation
@@ -32,6 +38,12 @@ public class Character {
 //		loader.load("lib/images/1.gif");
 //		System.out.println(loader.data.length);
 //		img = new Image(null, loader.data[0]);
+	}
+
+	public Character(Position pos, Image img) {
+		super();
+		this.pos = pos;
+		this.img = img;
 	}
 
 	public Position getPos() {

@@ -6,8 +6,10 @@ import java.io.PrintWriter;
 
 import model.MyModel;
 import presenter.MyPresenter;
+import properties.Properties;
 import view.MazeWindow;
 import view.MyView;
+import view.WindowsBuilder;
 
 public class Run {
 
@@ -24,6 +26,8 @@ public class Run {
 		model.addObserver(presenter);
 		view.addObserver(presenter);
 				
+		
+		
 		view.start();
 	}
 
