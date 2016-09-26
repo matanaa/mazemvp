@@ -103,6 +103,31 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
+		
+		Button btnExit = new Button(btnGroup, SWT.PUSH);
+		btnExit.setText("Exit game");
+		btnExit.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+	            int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
+	            MessageBox messageBox = new MessageBox(shell, style);
+	            messageBox.setText("Information");
+	            messageBox.setMessage("Close the Game?");
+	            if (messageBox.open() == SWT.YES){
+	           // event.doit =false;
+	            setChanged();
+	            notifyObservers("exit");
+
+			}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		mazeDisplay = new MazeDisplay(this.shell, SWT.DOUBLE_BUFFERED);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		mazeDisplay.setFocus();
