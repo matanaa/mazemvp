@@ -47,6 +47,9 @@ public class MazeDisplay extends Canvas {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+				if (mazeData==null){
+					return;
+				}
 				Position pos = character.getPos();
 				ArrayList<Position> moves = maze.getPossibleMoves(pos);
 				switch (e.keyCode) {
@@ -171,7 +174,6 @@ public class MazeDisplay extends Canvas {
 
 	public void setMaze(Maze3d maze) {
 		this.maze = maze;
-
 		setMazeData(maze.getCrossSectionByZ(maze.getStartPos().z));
 		setCharacterPos(maze.getStartPos());
 	}
@@ -182,7 +184,7 @@ public class MazeDisplay extends Canvas {
 		// (character.getPos()) );
 
 		TimerTask task = new TimerTask() {
-			int i = 0;
+			int i = solution.getSolution().indexOf(new State<Position> (character.getPos()) );
 
 			@Override
 			public void run() {
