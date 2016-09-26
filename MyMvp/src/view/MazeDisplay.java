@@ -7,6 +7,8 @@ import java.util.TimerTask;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -30,12 +32,29 @@ public class MazeDisplay extends Canvas {
 	private SpecialCube stairDown = new SpecialCube("stairs_down.png");
 	private SpecialCube wallCube = new SpecialCube("wall.png");
 	private SpecialCube roadCube =new SpecialCube("road.jpg");
-	
+	private int scale =1;
 
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
+		this.setBackground(new Color(null, 233, 232, 233));
 		character = new Character();
 		character.setPos(new Position(0, 0, 0));
+		
+		/*this.addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseScrolled(MouseEvent e) {
+				int wheelCount = e.count;
+				if ((e.stateMask & SWT.CONTROL) == SWT.CONTROL) {
+					if (wheelCount > 0) {
+						scale += .2;
+						redraw();
+					} else if (wheelCount < 0 && scale >= 1.2) {
+						scale -= .2;
+						redraw();
+					}
+				}
+			}
+		});*/
 
 		this.addKeyListener(new KeyListener() {
 
@@ -179,6 +198,41 @@ public class MazeDisplay extends Canvas {
 	}
 
 	public void printSolution(Solution<Position> solution) {
+
+		// i=solution.getSolution().indexOf(new State<Position>
+		// (character.getPos()) );
+
+		TimerTask task = new TimerTask() {
+			int i = solution.getSolution().indexOf(new State<Position> (character.getPos()) );
+
+			@Override
+			public void run() {
+				getDisplay().syncExec(new Runnable() {
+
+					@Override
+					public void run() {
+
+						if (i == solution.getSolution().size()) {
+							cancel();
+							return;
+							// TODO: fix this line
+						}
+
+						character.setPos(solution.getSolution().get(i++).getState());
+						setMazeData(maze.getCrossSectionByZ(character.getPos().z));
+						redraw();
+					}
+				});
+
+			}
+		};
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(task, 0, 500);
+
+	}
+
+
+	public void prinHint(Solution<Position> solution) {
 
 		// i=solution.getSolution().indexOf(new State<Position>
 		// (character.getPos()) );

@@ -1,13 +1,14 @@
 package view;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -24,28 +25,29 @@ public class MazeWindow extends BasicWindow implements View {
 
 	private MazeDisplay mazeDisplay;
 	private String mazeName;
+	private String solutionCmd = "";
 
 	@Override
 	protected void initWidgets() {
-		
+
 		GridLayout gridLayout = new GridLayout(2, false);
 		shell.setLayout(gridLayout);
 		shell.setText("MaTan & Snir MaZe 3D");
-		 shell.addListener(SWT.Close, new Listener()
-		    {// exit event
-		        public void handleEvent(Event event)
-		        {
-		            int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
-		            MessageBox messageBox = new MessageBox(shell, style);
-		            messageBox.setText("Information");
-		            messageBox.setMessage("Close the Game?");
-		            if (messageBox.open() == SWT.YES){
-		           // event.doit =false;
-		            setChanged();
-		            notifyObservers("exit");
-		            }
-		        }
-		    });
+
+		// check exit
+		shell.addListener(SWT.Close, new Listener() {// exit event
+			public void handleEvent(Event event) {
+				int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
+				MessageBox messageBox = new MessageBox(shell, style);
+				messageBox.setText("Information");
+				messageBox.setMessage("Close the Game?");
+				if (messageBox.open() == SWT.YES) {
+					// event.doit =false;
+					setChanged();
+					notifyObservers("exit");
+				}
+			}
+		});
 		Composite btnGroup = new Composite(shell, SWT.BORDER);
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
 		btnGroup.setLayout(rowLayout);
@@ -72,7 +74,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				showLoadMazeOption() ;
+				showLoadMazeOption();
 
 			}
 
@@ -84,15 +86,16 @@ public class MazeWindow extends BasicWindow implements View {
 		});
 
 		Button btnSolveMaze = new Button(btnGroup, SWT.PUSH);
-		
+
 		btnSolveMaze.setText("Solve maze");
 		btnSolveMaze.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				if (mazeName!=null){
+				if (mazeName != null) {
+					solutionCmd = "display_solution";
 					setChanged();
-				notifyObservers("solve " + mazeName);
+					notifyObservers("solve " + mazeName);
 				}
 
 			}
@@ -103,23 +106,45 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
-		
+
+		Button btnHint = new Button(btnGroup, SWT.PUSH);
+
+		btnHint.setText("Show Hint");
+		btnHint.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				if (mazeName != null) {
+					solutionCmd = "display_hint";
+					setChanged();
+					notifyObservers("solve " + mazeName);
+				}
+
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		Button btnExit = new Button(btnGroup, SWT.PUSH);
 		btnExit.setText("Exit game");
 		btnExit.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-	            int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
-	            MessageBox messageBox = new MessageBox(shell, style);
-	            messageBox.setText("Information");
-	            messageBox.setMessage("Close the Game?");
-	            if (messageBox.open() == SWT.YES){
-	           // event.doit =false;
-	            setChanged();
-	            notifyObservers("exit");
+				int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
+				MessageBox messageBox = new MessageBox(shell, style);
+				messageBox.setText("Information");
+				messageBox.setMessage("Close the Game?");
+				if (messageBox.open() == SWT.YES) {
+					// event.doit =false;
+					setChanged();
+					notifyObservers("exit");
 
-			}
+				}
 			}
 
 			@Override
@@ -179,8 +204,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 		shell.open();
 	}
-	
-	
+
 	protected void showLoadMazeOption() {
 		Shell shell = new Shell();
 		shell.setText("Load Maze");
@@ -191,10 +215,9 @@ public class MazeWindow extends BasicWindow implements View {
 
 		Label lblName = new Label(shell, SWT.NONE);
 		lblName.setText("Name: ");
-		//Combo txtName = new Combo(shell, SWT.BORDER);
-		//txtName.add("");
+		// Combo txtName = new Combo(shell, SWT.BORDER);
+		// txtName.add("");
 		Text txtName = new Text(shell, SWT.BORDER);
-
 
 		Button btnGenerate = new Button(shell, SWT.PUSH);
 		btnGenerate.setText("Load");
@@ -229,7 +252,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 				setChanged();
 				notifyObservers("display_maze " + name);
-				mazeName =name;
+				mazeName = name;
 
 			}
 		});
@@ -238,7 +261,7 @@ public class MazeWindow extends BasicWindow implements View {
 	@Override
 	public void displayMaze(Maze3d maze) {
 		if (maze == null) {
-			
+
 			this.printErrorMessage(new String[] { "Maze not found", "can't find the maze" });
 			return;
 		}
@@ -273,20 +296,18 @@ public class MazeWindow extends BasicWindow implements View {
 
 	@Override
 	public void notifySolutionIsReady(String name) {
-//		MessageBox msgBox = new MessageBox(shell, SWT.ICON_INFORMATION);
-//		msgBox.setText("Solution Is Ready");
-//		msgBox.setMessage("The solution for " + name + " is ready!");
-//		msgBox.open();
 		setChanged();
-		notifyObservers("display_solution "+ name );
-
-		
-
+		notifyObservers(solutionCmd + " " + name);
 	}
 
 	@Override
 	public void displayMazeSolution(Solution<Position> solution) {
 		mazeDisplay.printSolution(solution);
+	}
+	
+	
+	public void displayMazeHint(Solution<Position> solution) {
+		mazeDisplay.prinHint(solution);
 	}
 
 	@Override
