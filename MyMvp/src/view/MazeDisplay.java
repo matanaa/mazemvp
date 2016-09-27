@@ -29,22 +29,21 @@ public class MazeDisplay extends Canvas {
 	private int[][] mazeData;
 	protected boolean win = false;
 	private Character character;
-	private int scale =1;
+	private int scale = 1;
 
 	private SpecialCube startCube = new SpecialCube("start.png");
 	private SpecialCube goalCube = new SpecialCube("goal1.png");
 	private SpecialCube stairUp = new SpecialCube("stairs_up.png");
 	private SpecialCube stairDown = new SpecialCube("stairs_down.png");
 	private SpecialCube wallCube = new SpecialCube("wall.png");
-	private SpecialCube roadCube =new SpecialCube("road.jpg");
-	
+	private SpecialCube roadCube = new SpecialCube("road.jpg");
 
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
 		this.setBackground(new Color(null, 233, 232, 233));
 		character = new Character();
 		character.setPos(new Position(0, 0, 0));
-	
+
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -55,11 +54,10 @@ public class MazeDisplay extends Canvas {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (mazeData==null){
+				if (mazeData == null) {
 					return;
 				}
 				KeyManaget(e);
-
 
 			}
 		});
@@ -68,14 +66,11 @@ public class MazeDisplay extends Canvas {
 
 			@Override
 			public void paintControl(PaintEvent e) {
-				if (mazeData == null)
-				{
-					//e.gc.drawImage(new Image(null, "lib/images/menu.jpg"),0,0)	;
-					Image imgBack =new Image(null, "lib/images/menu.jpg");
-					e.gc.drawImage(imgBack, 0, 0, imgBack.getBounds().width, imgBack.getBounds().height, 0,0,
+				if (mazeData == null) {
+					Image imgBack = new Image(null, "lib/images/menu.jpg");
+					e.gc.drawImage(imgBack, 0, 0, imgBack.getBounds().width, imgBack.getBounds().height, 0, 0,
 							getSize().x, getSize().y);
 
-					
 					return;
 				}
 
@@ -148,7 +143,7 @@ public class MazeDisplay extends Canvas {
 		// (character.getPos()) );
 
 		TimerTask task = new TimerTask() {
-			int i = solution.getSolution().indexOf(new State<Position> (character.getPos()) );
+			int i = solution.getSolution().indexOf(new State<Position>(character.getPos()));
 
 			@Override
 			public void run() {
@@ -162,10 +157,9 @@ public class MazeDisplay extends Canvas {
 							return;
 							// TODO: fix this line
 						}
-						if (i==-1)
-						{
-							
-						i=0;
+						if (i == -1) {
+
+							i = 0;
 						}
 
 						character.setPos(solution.getSolution().get(i++).getState());
@@ -180,7 +174,6 @@ public class MazeDisplay extends Canvas {
 		timer.scheduleAtFixedRate(task, 0, 500);
 
 	}
-
 
 	public void prinHint(Solution<Position> solution) {
 
@@ -188,7 +181,7 @@ public class MazeDisplay extends Canvas {
 		// (character.getPos()) );
 
 		TimerTask task = new TimerTask() {
-			int i = solution.getSolution().indexOf(new State<Position> (character.getPos()) );
+			int i = solution.getSolution().indexOf(new State<Position>(character.getPos()));
 
 			@Override
 			public void run() {
@@ -215,16 +208,16 @@ public class MazeDisplay extends Canvas {
 		timer.scheduleAtFixedRate(task, 0, 500);
 
 	}
-	
+
 	private void winnerEvent() {
 		MessageBox msgBox = new MessageBox(new Shell(), SWT.ICON_INFORMATION);
-		msgBox.setText("win!");
-		msgBox.setMessage("win!");
+		msgBox.setText("Congratulations!");
+		msgBox.setMessage("You Win!");
 		msgBox.open();
 		win = true;
-		
+
 	}
-	
+
 	private void KeyManaget(KeyEvent e) {
 		Position pos = character.getPos();
 		ArrayList<Position> moves = maze.getPossibleMoves(pos);
