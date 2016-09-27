@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
+import presenter.MyPresenter;
 
 public class MazeWindow extends BasicWindow implements View {
 
@@ -323,5 +324,7 @@ public class MazeWindow extends BasicWindow implements View {
 		msgBox.open();
 
 	}
+
+
 
 }

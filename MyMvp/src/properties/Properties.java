@@ -10,6 +10,7 @@ public class Properties implements Serializable {
 	private int numOfThreads;
 	private String generateMazeAlgorithm;
 	private String solveMazeAlgorithm;
+	private String view;
 
 	public Properties() {
 
@@ -38,17 +39,20 @@ public class Properties implements Serializable {
 	public void setSolveMazeAlgorithm(String solveMazeAlgorithm) {
 		this.solveMazeAlgorithm = solveMazeAlgorithm;
 	}
+	
+	public String getView() {
+		return view;
+	}
+
+	public void setView(String view) {
+		this.view = view;
+	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Properties [numOfThreads=" + numOfThreads + ", generateMazeAlgorithm=" + generateMazeAlgorithm
-				+ ", solveMazeAlgorithm=" + solveMazeAlgorithm + "]";
+				+ ", solveMazeAlgorithm=" + solveMazeAlgorithm + ", view=" + view + "]";
 	}
 
 }
