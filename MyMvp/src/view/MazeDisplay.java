@@ -12,7 +12,10 @@ import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -41,7 +44,7 @@ public class MazeDisplay extends Canvas {
 		this.setBackground(new Color(null, 233, 232, 233));
 		character = new Character();
 		character.setPos(new Position(0, 0, 0));
-		
+	
 		/*this.addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseScrolled(MouseEvent e) {
@@ -82,7 +85,15 @@ public class MazeDisplay extends Canvas {
 			@Override
 			public void paintControl(PaintEvent e) {
 				if (mazeData == null)
+				{
+					//e.gc.drawImage(new Image(null, "lib/images/menu.jpg"),0,0)	;
+					Image imgBack =new Image(null, "lib/images/menu.jpg");
+					e.gc.drawImage(imgBack, 0, 0, imgBack.getBounds().width, imgBack.getBounds().height, 0,0,
+							getSize().x, getSize().y);
+
+					
 					return;
+				}
 
 				e.gc.setForeground(new Color(null, 0, 0, 0));
 				e.gc.setBackground(new Color(null, 0, 0, 0));

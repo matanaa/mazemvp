@@ -36,6 +36,7 @@ public class MazeWindow extends BasicWindow implements View {
 		GridLayout gridLayout = new GridLayout(2, false);
 		shell.setLayout(gridLayout);
 		shell.setText("MaTan & Snir MaZe 3D");
+		shell.setBackground(new Color(null,204,229,255));
 
 		// check exit
 		shell.addListener(SWT.Close, new Listener() {// exit event
@@ -57,11 +58,13 @@ public class MazeWindow extends BasicWindow implements View {
 		Composite btnGroup = new Composite(shell, SWT.BORDER);
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
 		btnGroup.setLayout(rowLayout);
-		btnGroup.setBackground(new Color(null, 0,128,0));
+		btnGroup.setBackground(new Color(null,102,178,255));
 
 		Button btnGenerateMaze = new Button(btnGroup, SWT.PUSH);
 		btnGenerateMaze.setText("Generate maze");
+		btnGenerateMaze.setBackground(new Color(null,102,178,255));
 		btnGenerateMaze.addSelectionListener(new SelectionListener() {
+		
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -77,6 +80,7 @@ public class MazeWindow extends BasicWindow implements View {
 		});
 		Button btnLoadMaze = new Button(btnGroup, SWT.PUSH);
 		btnLoadMaze.setText("Load maze");
+		btnLoadMaze.setBackground(new Color(null,102,178,255));
 		btnLoadMaze.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -95,6 +99,7 @@ public class MazeWindow extends BasicWindow implements View {
 		Button btnSolveMaze = new Button(btnGroup, SWT.PUSH);
 
 		btnSolveMaze.setText("Solve maze");
+		btnSolveMaze.setBackground(new Color(null,102,178,255));
 		btnSolveMaze.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -117,6 +122,7 @@ public class MazeWindow extends BasicWindow implements View {
 		Button btnHint = new Button(btnGroup, SWT.PUSH);
 
 		btnHint.setText("Show Hint");
+		btnHint.setBackground(new Color(null,102,178,255));
 		btnHint.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -138,6 +144,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 		Button btnExit = new Button(btnGroup, SWT.PUSH);
 		btnExit.setText("Exit game");
+		btnExit.setBackground(new Color(null,102,178,255));
 		btnExit.addSelectionListener(new SelectionListener() {
 
 			@Override
