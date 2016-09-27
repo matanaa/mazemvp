@@ -8,6 +8,7 @@ import java.util.Observable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseWheelListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.MessageBox;
@@ -25,7 +26,9 @@ public abstract class BasicWindow extends Observable implements Runnable {
 	public void run() {
 		display = new Display(); // our display
 		shell = new Shell(display); // our window
-
+		
+		//set nice icon
+		shell.setImage(new Image(null, "lib/images/icon.ico"));
 		initWidgets();
 
 		shell.open();
