@@ -193,7 +193,7 @@ public class MazeDisplay extends Canvas {
 			}
 		};
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 10);
+		timer.scheduleAtFixedRate(task, 0, 500);
 
 	}
 

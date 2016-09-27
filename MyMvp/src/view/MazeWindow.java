@@ -1,13 +1,9 @@
 package view;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -104,11 +100,11 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				if (mazeName != null) {
+				//if (mazeName != null) {
 					solutionCmd = "display_solution";
 					setChanged();
 					notifyObservers("solve " + mazeName);
-				}
+				//}
 
 			}
 
@@ -227,6 +223,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				mazeName = txtName.getText();
 				setChanged();
 				notifyObservers("display_maze " + txtName.getText());
 				shell.close();

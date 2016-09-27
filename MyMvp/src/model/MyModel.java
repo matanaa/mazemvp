@@ -426,6 +426,7 @@ public class MyModel extends Observable implements Model {
 	/**
 	 * Load solutions.
 	 */
+	@SuppressWarnings("unchecked")
 	private void loadSolutions() {
 		File file = new File("solutions.dat");
 		if (!file.exists())
