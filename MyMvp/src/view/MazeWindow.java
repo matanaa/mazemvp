@@ -164,8 +164,8 @@ public class MazeWindow extends BasicWindow implements View {
 	protected void showGenerateMazeOptions() {
 		Shell shell = new Shell();
 		shell.setText("Generate Maze");
-		shell.setSize(300, 200);
-
+		shell.setSize(250, 200);
+		
 		GridLayout layout = new GridLayout(2, false);
 		shell.setLayout(layout);
 
@@ -210,7 +210,7 @@ public class MazeWindow extends BasicWindow implements View {
 	protected void showLoadMazeOption() {
 		Shell shell = new Shell();
 		shell.setText("Load Maze");
-		shell.setSize(300, 200);
+		shell.setSize(200, 100);
 
 		GridLayout layout = new GridLayout(2, false);
 		shell.setLayout(layout);
