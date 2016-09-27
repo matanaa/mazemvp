@@ -45,22 +45,6 @@ public class MazeDisplay extends Canvas {
 		character = new Character();
 		character.setPos(new Position(0, 0, 0));
 	
-		/*this.addMouseWheelListener(new MouseWheelListener() {
-			@Override
-			public void mouseScrolled(MouseEvent e) {
-				int wheelCount = e.count;
-				if ((e.stateMask & SWT.CONTROL) == SWT.CONTROL) {
-					if (wheelCount > 0) {
-						scale += .2;
-						redraw();
-					} else if (wheelCount < 0 && scale >= 1.2) {
-						scale -= .2;
-						redraw();
-					}
-				}
-			}
-		});*/
-
 		this.addKeyListener(new KeyListener() {
 
 			@Override

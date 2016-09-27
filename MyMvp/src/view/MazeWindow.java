@@ -273,7 +273,9 @@ public class MazeWindow extends BasicWindow implements View {
 
 	@Override
 	public void start() {
+
 		run();
+
 	}
 
 	@Override
