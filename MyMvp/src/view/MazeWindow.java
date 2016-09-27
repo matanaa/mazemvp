@@ -108,6 +108,24 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
+		
+		Button btnLoadMazeFromFile = new Button(btnGroup, SWT.PUSH);
+		btnLoadMazeFromFile.setText("Load maze from file");
+		btnLoadMazeFromFile.setBackground(new Color(null, 102, 178, 255));
+		btnLoadMazeFromFile.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				showLoadMazeFromFileOption();
+
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		Button btnSolveMaze = new Button(btnGroup, SWT.PUSH);
 
@@ -280,6 +298,43 @@ public class MazeWindow extends BasicWindow implements View {
 				mazeName = path.getText();
 				setChanged();
 				notifyObservers("save_maze " + name.getText() + " " + path.getText());
+				shell.close();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		shell.open();
+	}
+	
+	protected void showLoadMazeFromFileOption() {
+		Shell shell = new Shell();
+		shell.setText("Load Maze From File");
+		shell.setSize(400, 150);
+
+		GridLayout layout = new GridLayout(2, false);
+		shell.setLayout(layout);
+
+		Label lblName = new Label(shell, SWT.NONE);
+		lblName.setText("Maze name: ");
+		Text name = new Text(shell, SWT.BORDER | SWT.FILL);
+		Label lblPath = new Label(shell, SWT.NONE);
+		lblPath.setText("Path: ");
+		Text path = new Text(shell, SWT.BORDER | SWT.FILL);
+
+		Button btnGenerate = new Button(shell, SWT.PUSH);
+		btnGenerate.setText("Load");
+		btnGenerate.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				mazeName = path.getText();
+				setChanged();
+				notifyObservers("load_maze " + path.getText() + " " + name.getText());
 				shell.close();
 			}
 
