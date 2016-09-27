@@ -5,6 +5,9 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -37,20 +40,24 @@ public class MazeWindow extends BasicWindow implements View {
 		// check exit
 		shell.addListener(SWT.Close, new Listener() {// exit event
 			public void handleEvent(Event event) {
-				int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
-				MessageBox messageBox = new MessageBox(shell, style);
-				messageBox.setText("Information");
-				messageBox.setMessage("Close the Game?");
-				if (messageBox.open() == SWT.YES) {
-					// event.doit =false;
-					setChanged();
-					notifyObservers("exit");
-				}
+				exitEvent(event);
 			}
+
+
 		});
+		
+		showMenu(this.shell);
+		mazeDisplay = new MazeDisplay(this.shell, SWT.DOUBLE_BUFFERED);
+		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+	}
+
+	protected void showMenu(Shell shell) {
+		
 		Composite btnGroup = new Composite(shell, SWT.BORDER);
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
 		btnGroup.setLayout(rowLayout);
+		btnGroup.setBackground(new Color(null, 0,128,0));
 
 		Button btnGenerateMaze = new Button(btnGroup, SWT.PUSH);
 		btnGenerateMaze.setText("Generate maze");
@@ -135,16 +142,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
-				MessageBox messageBox = new MessageBox(shell, style);
-				messageBox.setText("Information");
-				messageBox.setMessage("Close the Game?");
-				if (messageBox.open() == SWT.YES) {
-					// event.doit =false;
-					setChanged();
-					notifyObservers("exit");
-
-				}
+				exitEvent(null);
 			}
 
 			@Override
@@ -153,10 +151,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
-		mazeDisplay = new MazeDisplay(this.shell, SWT.DOUBLE_BUFFERED);
-		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		mazeDisplay.setFocus();
-
+		
 	}
 
 	protected void showGenerateMazeOptions() {
