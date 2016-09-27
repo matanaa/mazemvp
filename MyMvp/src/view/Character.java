@@ -28,9 +28,10 @@ public class Character implements Serializable {
 		//img = new Image(null, "lib/images/character.jpg");
 		
 		//delete white pixsel
-		ImageData ideaData = new ImageData("lib/images/character.jpg");
-		 int whitePixel = ideaData.palette.getPixel(new RGB(255,255,255));
-		 ideaData.transparentPixel = whitePixel;
+		ImageData ideaData = new ImageData("lib/images/character.png");
+// delete white pixels
+//		 int whitePixel = ideaData.palette.getPixel(new RGB(255,255,255));
+//		 ideaData.transparentPixel = whitePixel;
 		 img = new Image(null,ideaData);
 		 
 		// try animation

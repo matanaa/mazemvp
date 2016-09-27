@@ -32,7 +32,7 @@ public class MazeDisplay extends Canvas {
 	private int scale =1;
 
 	private SpecialCube startCube = new SpecialCube("start.png");
-	private SpecialCube goalCube = new SpecialCube("goal.jpg");
+	private SpecialCube goalCube = new SpecialCube("goal1.png");
 	private SpecialCube stairUp = new SpecialCube("stairs_up.png");
 	private SpecialCube stairDown = new SpecialCube("stairs_down.png");
 	private SpecialCube wallCube = new SpecialCube("wall.png");
