@@ -300,7 +300,7 @@ public class MyModel extends Observable implements Model {
 		openFileCount++;
 		try {
 
-			File fileinstance = new File(file + ".maz");// file instance need
+			File fileinstance = new File(file);// file instance need
 														// for taking the file
 														// size
 			// using decorator pattern to get a file using our decompressor
@@ -396,7 +396,7 @@ public class MyModel extends Observable implements Model {
 		openFileCount++; // will add notification that one file is opend
 		try {
 
-			savedFile = new MyCompressorOutputStream(new FileOutputStream(file_name + ".maz"));
+			savedFile = new MyCompressorOutputStream(new FileOutputStream(file_name));
 
 			savedFile.write(maze.toByteArray());// write the compress byte maze
 												// to file

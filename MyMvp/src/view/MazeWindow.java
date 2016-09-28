@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
@@ -108,7 +109,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
-		
+
 		Button btnLoadMazeFromFile = new Button(btnGroup, SWT.PUSH);
 		btnLoadMazeFromFile.setText("Load maze from file");
 		btnLoadMazeFromFile.setBackground(new Color(null, 102, 178, 255));
@@ -285,20 +286,16 @@ public class MazeWindow extends BasicWindow implements View {
 		Label lblName = new Label(shell, SWT.NONE);
 		lblName.setText("Maze name: ");
 		Text name = new Text(shell, SWT.BORDER | SWT.FILL);
-		Label lblPath = new Label(shell, SWT.NONE);
-		lblPath.setText("Path: ");
-		Text path = new Text(shell, SWT.BORDER | SWT.FILL);
-
-		Button btnGenerate = new Button(shell, SWT.PUSH);
-		btnGenerate.setText("Save");
-		btnGenerate.addSelectionListener(new SelectionListener() {
+		Button lauchSaveDialog = new Button(shell, SWT.PUSH);
+		lauchSaveDialog.setText("Save");
+		lauchSaveDialog.setBackground(new Color(null, 102, 178, 255));
+		lauchSaveDialog.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				mazeName = path.getText();
-				setChanged();
-				notifyObservers("save_maze " + name.getText() + " " + path.getText());
+				saveMazeToFileDialog(name.getText());
 				shell.close();
+
 			}
 
 			@Override
@@ -307,10 +304,27 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
-
 		shell.open();
 	}
-	
+
+	protected void saveMazeToFileDialog(String mazeName) {
+		Shell shell = new Shell();
+
+		GridLayout layout = new GridLayout(2, false);
+		shell.setLayout(layout);
+
+		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+		dialog.setFilterNames(new String[] { "Maze Files", "All Files (*.*)" });
+		dialog.setFilterExtensions(new String[] {"*.maz"});
+		dialog.setFilterPath("c:\\");
+		dialog.setFileName(mazeName);
+		dialog.open();
+
+		setChanged();
+		notifyObservers("save_maze" + " " + mazeName + " " + dialog.getFilterPath() + "\\" + dialog.getFileName());
+		shell.close();
+	}
+
 	protected void showLoadMazeFromFileOption() {
 		Shell shell = new Shell();
 		shell.setText("Load Maze From File");
@@ -322,20 +336,16 @@ public class MazeWindow extends BasicWindow implements View {
 		Label lblName = new Label(shell, SWT.NONE);
 		lblName.setText("Maze name: ");
 		Text name = new Text(shell, SWT.BORDER | SWT.FILL);
-		Label lblPath = new Label(shell, SWT.NONE);
-		lblPath.setText("Path: ");
-		Text path = new Text(shell, SWT.BORDER | SWT.FILL);
-
-		Button btnGenerate = new Button(shell, SWT.PUSH);
-		btnGenerate.setText("Load");
-		btnGenerate.addSelectionListener(new SelectionListener() {
+		Button lauchLoadDialog = new Button(shell, SWT.PUSH);
+		lauchLoadDialog.setText("Load");
+		lauchLoadDialog.setBackground(new Color(null, 102, 178, 255));
+		lauchLoadDialog.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				mazeName = path.getText();
-				setChanged();
-				notifyObservers("load_maze " + path.getText() + " " + name.getText());
+				loadMazeToFileDialog(name.getText());
 				shell.close();
+
 			}
 
 			@Override
@@ -348,6 +358,24 @@ public class MazeWindow extends BasicWindow implements View {
 		shell.open();
 	}
 
+	protected void loadMazeToFileDialog(String mazeName) {
+		Shell shell = new Shell();
+
+		GridLayout layout = new GridLayout(2, false);
+		shell.setLayout(layout);
+
+		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+		dialog.setFilterNames(new String[] { "Maze Files", "All Files (*.*)" });
+		dialog.setFilterExtensions(new String[] {"*.maz"});
+		dialog.setFilterPath("c:\\");
+		dialog.setFileName(mazeName);
+		dialog.open();
+
+		setChanged();
+		notifyObservers("load_maze" + " " + dialog.getFilterPath() + "\\" + dialog.getFileName() + " " + mazeName);
+		shell.close();
+	}
+	
 	@Override
 	public void notifyMazeIsReady(String name) {
 		display.syncExec(new Runnable() {
