@@ -44,7 +44,7 @@ public class MazeWindow extends BasicWindow implements View {
 	 */
 	@Override
 	protected void initWidgets() {
-		int scale = 1;
+		
 		GridLayout gridLayout = new GridLayout(2, false);
 		shell.setLayout(gridLayout);
 		shell.setText("MaTan & Snir MaZe 3D");

@@ -29,7 +29,6 @@ public class MazeDisplay extends Canvas {
 	private int[][] mazeData;
 	protected boolean win = false;
 	private Character character;
-	private int scale = 1;
 
 	private SpecialCube startCube = new SpecialCube("start.png");
 	private SpecialCube goalCube = new SpecialCube("goal1.png");
@@ -41,9 +40,12 @@ public class MazeDisplay extends Canvas {
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
 		this.setBackground(new Color(null, 233, 232, 233));
-		character = new Character();
-		character.setPos(new Position(0, 0, 0));
-
+		initCharacter();
+		addListeners() ;
+		drawMaze();
+	}
+	
+	protected void addListeners() {
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -61,6 +63,13 @@ public class MazeDisplay extends Canvas {
 
 			}
 		});
+	}
+protected void initCharacter(){
+	character = new Character();
+	character.setPos(new Position(0, 0, 0));
+
+}
+	protected void drawMaze(){
 
 		this.addPaintListener(new PaintListener() {
 
@@ -115,12 +124,13 @@ public class MazeDisplay extends Canvas {
 
 				if (character.getPos().equals(maze.getGoalPos()) && !win) {
 					winnerEvent();
+					forceFocus();
 				}
 
 			}
 		});
-	}
 
+	}
 	public void setCharacterPos(Position pos) {
 		character.setPos(new Position(pos.z, pos.y, pos.x));
 	}
