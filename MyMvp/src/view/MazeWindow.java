@@ -76,7 +76,7 @@ public class MazeWindow extends BasicWindow implements View {
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
 		btnGroup.setLayout(rowLayout);
 		btnGroup.setBackground(new Color(null, 102, 178, 255));
-
+		rowLayout.pack =false;
 		Button btnGenerateMaze = new Button(btnGroup, SWT.PUSH);
 		btnGenerateMaze.setText("Generate maze");
 		btnGenerateMaze.setBackground(new Color(null, 102, 178, 255));

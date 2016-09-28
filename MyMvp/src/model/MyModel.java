@@ -9,11 +9,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
@@ -40,10 +39,10 @@ import properties.PropertiesLoader;
 public class MyModel extends Observable implements Model {
 
 	/**  The maze list - list of all mazes saved in the game. */
-	protected HashMap<String, Maze3d> mazeMap;
+	protected ConcurrentHashMap<String, Maze3d> mazeMap;
 
 	/** The solution list list of all the solution for those mazes. */
-	protected HashMap<String, Solution<Position>> solutionMap;
+	protected ConcurrentHashMap<String, Solution<Position>> solutionMap;
 
 	/** The thread pool. */
 	protected ExecutorService threadPool;
@@ -66,8 +65,8 @@ public class MyModel extends Observable implements Model {
 	 */
 	public MyModel() {
 		properties = PropertiesLoader.getInstance().getProperties();
-		this.mazeMap = new HashMap<String, Maze3d>();
-		this.solutionMap = new HashMap<String, Solution<Position>>();
+		this.mazeMap = new ConcurrentHashMap<String, Maze3d>();
+		this.solutionMap = new ConcurrentHashMap<String, Solution<Position>>();
 		this.threadPool =  Executors.newFixedThreadPool(properties.getNumOfThreads());
 
 		
@@ -96,7 +95,7 @@ public class MyModel extends Observable implements Model {
 	 *
 	 * @return the maze map
 	 */
-	public HashMap<String, Maze3d> getMazeMap() {
+	public ConcurrentHashMap<String, Maze3d> getMazeMap() {
 		return mazeMap;
 	}
 
@@ -106,7 +105,7 @@ public class MyModel extends Observable implements Model {
 	 * @param mazeMap
 	 *            the maze map
 	 */
-	public void setMazeMap(HashMap<String, Maze3d> mazeMap) {
+	public void setMazeMap(ConcurrentHashMap<String, Maze3d> mazeMap) {
 		this.mazeMap = mazeMap;
 	}
 
@@ -115,7 +114,7 @@ public class MyModel extends Observable implements Model {
 	 *
 	 * @return the solution map
 	 */
-	public HashMap<String, Solution<Position>> getSolutionMap() {
+	public ConcurrentHashMap<String, Solution<Position>> getSolutionMap() {
 		return solutionMap;
 	}
 
@@ -125,7 +124,7 @@ public class MyModel extends Observable implements Model {
 	 * @param solutionMap
 	 *            the solution map
 	 */
-	public void setSolutionMap(HashMap<String, Solution<Position>> solutionMap) {
+	public void setSolutionMap(ConcurrentHashMap<String, Solution<Position>> solutionMap) {
 		this.solutionMap = solutionMap;
 	}
 
@@ -442,8 +441,8 @@ public class MyModel extends Observable implements Model {
 
 		try {
 			ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream("solutions.dat")));
-			mazeMap = (HashMap<String, Maze3d>) ois.readObject();
-			solutionMap = (HashMap<String, Solution<Position>>) ois.readObject();
+			mazeMap = (ConcurrentHashMap<String, Maze3d>) ois.readObject();
+			solutionMap = (ConcurrentHashMap<String, Solution<Position>>) ois.readObject();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
