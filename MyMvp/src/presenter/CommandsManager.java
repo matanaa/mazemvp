@@ -15,6 +15,7 @@ import algorithms.search.CommonSearcher;
 import algorithms.search.DFS;
 import algorithms.search.Solution;
 import model.Model;
+import properties.PropertiesLoader;
 import view.View;
 
 // TODO: Auto-generated Javadoc
@@ -59,6 +60,7 @@ public class CommandsManager {
 		commands.put("load_maze", new load_maze());
 		commands.put("solve", new solveMaze3d());
 		commands.put("display_solution", new displayMazeSolution());
+		commands.put("change_xml", new change_xml());
 		commands.put("exit", new exit());
 		return commands;
 	}
@@ -89,7 +91,8 @@ public class CommandsManager {
 			int cols = Integer.parseInt(args[3]);
 			// String generator = args[4];
 			// ask the model to generate the maze
-			model.generateMaze(name, floors, rows, cols, getGenerator(model.getProperties().getGenerateMazeAlgorithm()));
+			model.generateMaze(name, floors, rows, cols,
+					getGenerator(model.getProperties().getGenerateMazeAlgorithm()));
 		}
 
 		/**
@@ -351,6 +354,29 @@ public class CommandsManager {
 			else {
 				view.displayMazeSolution(solution);
 			}
+		}
+	}
+
+	public class change_xml implements Command {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
+		@Override
+		public void doCommand(String[] args) {
+			if (args.length != 1) {
+				view.printErrorMessage(new String[] { "Arguments Error", "Please specify XML file" });
+				return;
+			}
+			// parsing the args
+			String file = args[0];
+			PropertiesLoader xmLoader = new PropertiesLoader();
+			xmLoader.setPropertiesLoader(file);
+			model.setProperties(xmLoader.getProperties());
+			
+
 		}
 	}
 

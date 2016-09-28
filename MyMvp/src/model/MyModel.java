@@ -35,11 +35,11 @@ import properties.PropertiesLoader;
 // TODO: Auto-generated Javadoc
 /**
  * The Class MyModel - The class that implements all the functions for a model
- * of a maze3d game
+ * of a maze3d game.
  */
 public class MyModel extends Observable implements Model {
 
-	/** The maze list - list of all mazes saved in the game */
+	/**  The maze list - list of all mazes saved in the game. */
 	protected HashMap<String, Maze3d> mazeMap;
 
 	/** The solution list list of all the solution for those mazes. */
@@ -83,6 +83,12 @@ public class MyModel extends Observable implements Model {
 	 */
 	public Properties getProperties() {
 		return properties;
+	}
+
+	@Override
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+		
 	}
 
 	/**
@@ -484,5 +490,9 @@ public class MyModel extends Observable implements Model {
 			}
 		}
 	}
+
+
+
+
 
 }

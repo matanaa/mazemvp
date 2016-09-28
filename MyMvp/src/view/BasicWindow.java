@@ -19,34 +19,37 @@ public abstract class BasicWindow extends Observable implements Runnable {
 	protected Display display;
 	protected Shell shell;
 
-
 	protected abstract void initWidgets();
 
 	@Override
 	public void run() {
 		display = new Display(); // our display
 		shell = new Shell(display); // our window
-		
-		//set nice icon
+
+		// set nice icon
 		shell.setImage(new Image(null, "lib/images/icon.ico"));
 		initWidgets();
 
 		shell.open();
 		/*
-		 *For the bonus
+		 * For the bonus
 		 * 
 		 */
 		shell.addMouseWheelListener(new MouseWheelListener() {
-			
-			/* (non-Javadoc)
-			 * @see org.eclipse.swt.events.MouseWheelListener#mouseScrolled(org.eclipse.swt.events.MouseEvent)
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.swt.events.MouseWheelListener#mouseScrolled(org.
+			 * eclipse.swt.events.MouseEvent)
 			 */
 			@Override
 			public void mouseScrolled(MouseEvent e) {
 				int wheelCount = e.count;
 
 				if ((e.stateMask & SWT.CONTROL) == SWT.CONTROL) {
-					if ((wheelCount < 0 && shell.getSize().x > 200 && shell.getSize().y > 200)||(wheelCount > 0 && shell.getSize().x < 2000 && shell.getSize().y < 2000) ){
+					if ((wheelCount < 0 && shell.getSize().x > 200 && shell.getSize().y > 200)
+							|| (wheelCount > 0 && shell.getSize().x < 2000 && shell.getSize().y < 2000)) {
 						shell.setSize(shell.getSize().x + wheelCount, shell.getSize().y + wheelCount);
 					}
 				}

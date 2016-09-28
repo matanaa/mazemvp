@@ -8,7 +8,7 @@ public class PropertiesLoader {
 	private static PropertiesLoader instance;
 	private Properties properties;
 
-	private PropertiesLoader() {
+	public PropertiesLoader() {
 		try {
 			XMLDecoder decoder = new XMLDecoder(new FileInputStream("properties.xml"));
 			properties = (Properties) decoder.readObject();
@@ -27,6 +27,17 @@ public class PropertiesLoader {
 		if (instance == null)
 			instance = new PropertiesLoader();
 		return instance;
+	}
+	
+	public void setPropertiesLoader(String filePath) {
+		try {
+			XMLDecoder decoder = new XMLDecoder(new FileInputStream(filePath));
+			properties = (Properties) decoder.readObject();
+			decoder.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

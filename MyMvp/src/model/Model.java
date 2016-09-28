@@ -104,6 +104,13 @@ public interface Model {
 	 * @return the properties
 	 */
 	Properties getProperties();
+	
+	/**
+	 * Sets the properties.
+	 *
+	 * @return the properties
+	 */
+	void setProperties(Properties properties);
 
 	/**
 	 * Save solutions.

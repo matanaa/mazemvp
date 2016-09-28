@@ -20,14 +20,28 @@ import org.eclipse.swt.widgets.Text;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
-import presenter.MyPresenter;
+import properties.PropertiesLoader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MazeWindow.
+ */
 public class MazeWindow extends BasicWindow implements View {
 
+	/** The maze display. */
 	private MazeDisplay mazeDisplay;
+
+	/** The maze name. */
 	private String mazeName;
+
+	/** The solution cmd. */
 	private String solutionCmd = "";
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.BasicWindow#initWidgets()
+	 */
 	@Override
 	protected void initWidgets() {
 		int scale = 1;
@@ -50,6 +64,12 @@ public class MazeWindow extends BasicWindow implements View {
 
 	}
 
+	/**
+	 * Show menu.
+	 *
+	 * @param shell
+	 *            the shell
+	 */
 	protected void showMenu(Shell shell) {
 
 		Composite btnGroup = new Composite(shell, SWT.BORDER);
@@ -174,6 +194,30 @@ public class MazeWindow extends BasicWindow implements View {
 			}
 		});
 
+		Button btnLoadXML = new Button(btnGroup, SWT.PUSH);
+		btnLoadXML.setText("Load Properties File");
+		btnLoadXML.setBackground(new Color(null, 102, 178, 255));
+		btnLoadXML.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+				dialog.setFilterNames(new String[] { "XML Files", "All Files (*.*)" });
+				dialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
+				dialog.setFilterPath("c:\\");
+				dialog.open();
+
+				setChanged();
+				notifyObservers("change_xml " + dialog.getFilterPath() + "\\" + dialog.getFileName());
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		Button btnExit = new Button(btnGroup, SWT.PUSH);
 		btnExit.setText("Exit game");
 		btnExit.setBackground(new Color(null, 102, 178, 255));
@@ -193,6 +237,9 @@ public class MazeWindow extends BasicWindow implements View {
 
 	}
 
+	/**
+	 * Show generate maze options.
+	 */
 	protected void showGenerateMazeOptions() {
 		Shell shell = new Shell();
 		shell.setText("Generate Maze");
@@ -239,6 +286,9 @@ public class MazeWindow extends BasicWindow implements View {
 		shell.open();
 	}
 
+	/**
+	 * Show load maze option.
+	 */
 	protected void showLoadMazeOption() {
 		Shell shell = new Shell();
 		shell.setText("Load Maze");
@@ -275,6 +325,9 @@ public class MazeWindow extends BasicWindow implements View {
 		shell.open();
 	}
 
+	/**
+	 * Show save maze to file option.
+	 */
 	protected void showSaveMazeToFileOption() {
 		Shell shell = new Shell();
 		shell.setText("Save Maze To File");
@@ -307,6 +360,12 @@ public class MazeWindow extends BasicWindow implements View {
 		shell.open();
 	}
 
+	/**
+	 * Save maze to file dialog.
+	 *
+	 * @param mazeName
+	 *            the maze name
+	 */
 	protected void saveMazeToFileDialog(String mazeName) {
 		Shell shell = new Shell();
 
@@ -315,7 +374,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 		dialog.setFilterNames(new String[] { "Maze Files", "All Files (*.*)" });
-		dialog.setFilterExtensions(new String[] {"*.maz"});
+		dialog.setFilterExtensions(new String[] { "*.maz" });
 		dialog.setFilterPath("c:\\");
 		dialog.setFileName(mazeName);
 		dialog.open();
@@ -325,6 +384,9 @@ public class MazeWindow extends BasicWindow implements View {
 		shell.close();
 	}
 
+	/**
+	 * Show load maze from file option.
+	 */
 	protected void showLoadMazeFromFileOption() {
 		Shell shell = new Shell();
 		shell.setText("Load Maze From File");
@@ -358,6 +420,12 @@ public class MazeWindow extends BasicWindow implements View {
 		shell.open();
 	}
 
+	/**
+	 * Load maze to file dialog.
+	 *
+	 * @param mazeName
+	 *            the maze name
+	 */
 	protected void loadMazeToFileDialog(String mazeName) {
 		Shell shell = new Shell();
 
@@ -366,7 +434,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 		dialog.setFilterNames(new String[] { "Maze Files", "All Files (*.*)" });
-		dialog.setFilterExtensions(new String[] {"*.maz"});
+		dialog.setFilterExtensions(new String[] { "*.maz" });
 		dialog.setFilterPath("c:\\");
 		dialog.setFileName(mazeName);
 		dialog.open();
@@ -375,7 +443,12 @@ public class MazeWindow extends BasicWindow implements View {
 		notifyObservers("load_maze" + " " + dialog.getFilterPath() + "\\" + dialog.getFileName() + " " + mazeName);
 		shell.close();
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#notifyMazeIsReady(java.lang.String)
+	 */
 	@Override
 	public void notifyMazeIsReady(String name) {
 		display.syncExec(new Runnable() {
@@ -394,6 +467,11 @@ public class MazeWindow extends BasicWindow implements View {
 		});
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#displayMaze(algorithms.mazeGenerators.Maze3d)
+	 */
 	@Override
 	public void displayMaze(Maze3d maze) {
 		if (maze == null) {
@@ -405,6 +483,11 @@ public class MazeWindow extends BasicWindow implements View {
 		mazeDisplay.forceFocus();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#start()
+	 */
 	@Override
 	public void start() {
 
@@ -412,6 +495,11 @@ public class MazeWindow extends BasicWindow implements View {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#printAnswers(java.lang.String[])
+	 */
 	@Override
 	public void printAnswers(String[] msg) {
 
@@ -426,27 +514,53 @@ public class MazeWindow extends BasicWindow implements View {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#printCross(int[][])
+	 */
 	@Override
 	public void printCross(int[][] cross) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#notifySolutionIsReady(java.lang.String)
+	 */
 	@Override
 	public void notifySolutionIsReady(String name) {
 		setChanged();
 		notifyObservers(solutionCmd + " " + name);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#displayMazeSolution(algorithms.search.Solution)
+	 */
 	@Override
 	public void displayMazeSolution(Solution<Position> solution) {
 		mazeDisplay.printSolution(solution);
 	}
 
+	/**
+	 * Display maze hint.
+	 *
+	 * @param solution
+	 *            the solution
+	 */
 	public void displayMazeHint(Solution<Position> solution) {
 		mazeDisplay.prinHint(solution);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#printErrorMessage(java.lang.String[])
+	 */
 	@Override
 	public void printErrorMessage(String[] msg) {
 		MessageBox msgBox = new MessageBox(shell, SWT.ICON_ERROR);
