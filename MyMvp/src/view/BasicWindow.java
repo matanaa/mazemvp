@@ -28,9 +28,49 @@ public abstract class BasicWindow extends Observable implements Runnable {
 
 		// set nice icon
 		shell.setImage(new Image(null, "lib/images/icon.ico"));
+		
 		initWidgets();
 
 		shell.open();
+		
+		/*
+		 * For the bonus
+		 * 
+		 */
+		zoomEvent();
+		// main event loop
+		while (!shell.isDisposed()) { // while window isn't closed
+
+			// 1. read events, put then in a queue.
+			// 2. dispatch the assigned listener
+			if (!display.readAndDispatch()) { // if the queue is empty
+				display.sleep(); // sleep until an event occurs
+			}
+
+		} // shell is disposed
+
+		
+		
+		display.dispose(); // dispose OS components
+	}
+
+	protected void exitEvent(Event event) {
+		int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
+		MessageBox messageBox = new MessageBox(shell, style);
+		messageBox.setText("Information");
+		messageBox.setMessage("Close the Game?");
+		if (messageBox.open() == SWT.YES) {
+			// event.doit =false;
+			setChanged();
+			notifyObservers("exit");
+		} else if (event != null) {
+
+			event.doit = false;
+		}
+
+	}
+	
+	protected void zoomEvent() {
 		/*
 		 * For the bonus
 		 * 
@@ -55,34 +95,6 @@ public abstract class BasicWindow extends Observable implements Runnable {
 				}
 			}
 		});
-
-		// main event loop
-		while (!shell.isDisposed()) { // while window isn't closed
-
-			// 1. read events, put then in a queue.
-			// 2. dispatch the assigned listener
-			if (!display.readAndDispatch()) { // if the queue is empty
-				display.sleep(); // sleep until an event occurs
-			}
-
-		} // shell is disposed
-
-		display.dispose(); // dispose OS components
-	}
-
-	protected void exitEvent(Event event) {
-		int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
-		MessageBox messageBox = new MessageBox(shell, style);
-		messageBox.setText("Information");
-		messageBox.setMessage("Close the Game?");
-		if (messageBox.open() == SWT.YES) {
-			// event.doit =false;
-			setChanged();
-			notifyObservers("exit");
-		} else if (event != null) {
-
-			event.doit = false;
-		}
 
 	}
 }
