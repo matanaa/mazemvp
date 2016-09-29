@@ -106,6 +106,12 @@ public class MyView extends CommonView {
 	public void displayMazeSolution(Solution<Position> solution) {
 		out.println(solution);
 	}
+	
+	@Override
+	public void displayHint(Solution<Position> solution) {
+		out.println(solution);
+		
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -126,5 +132,7 @@ public class MyView extends CommonView {
 			notifyObservers(arg);
 		}
 	}
+
+
 
 }

@@ -36,6 +36,7 @@ public class MazeDisplay extends Canvas {
 	private SpecialCube stairDown = new SpecialCube("stairs_down.png");
 	private SpecialCube wallCube = new SpecialCube("wall.png");
 	private SpecialCube roadCube = new SpecialCube("road.jpg");
+	private SpecialCube hintCube = new SpecialCube("hint.png");
 
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
@@ -184,39 +185,21 @@ protected void initCharacter(){
 		timer.scheduleAtFixedRate(task, 0, 500);
 
 	}
-
-	public void prinHint(Solution<Position> solution) {
-
-		// i=solution.getSolution().indexOf(new State<Position>
-		// (character.getPos()) );
-
-		TimerTask task = new TimerTask() {
-			int i = solution.getSolution().indexOf(new State<Position>(character.getPos()));
+	
+	public void printHint (Solution<Position> solution){
+			
+		getDisplay().syncExec(new Runnable() {
 
 			@Override
 			public void run() {
-				getDisplay().syncExec(new Runnable() {
 
-					@Override
-					public void run() {
-
-						if (i == solution.getSolution().size()) {
-							cancel();
-							return;
-							// TODO: fix this line
-						}
-
-						character.setPos(solution.getSolution().get(i++).getState());
-						setMazeData(maze.getCrossSectionByZ(character.getPos().z));
-						redraw();
-					}
-				});
-
+				character.setPos(solution.getSolution().get(1).getState());
+				setMazeData(maze.getCrossSectionByZ(character.getPos().z));
+				redraw();
 			}
-		};
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 500);
-
+		});
+		
+		
 	}
 
 	private void winnerEvent() {

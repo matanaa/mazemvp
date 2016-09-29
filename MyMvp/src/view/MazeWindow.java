@@ -36,6 +36,8 @@ public class MazeWindow extends BasicWindow implements View {
 
 	/** The solution cmd. */
 	private String solutionCmd = "";
+	
+	private int hint = 0;
 
 	/*
 	 * (non-Javadoc)
@@ -156,11 +158,11 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				// if (mazeName != null) {
+				hint = 0;
 				solutionCmd = "display_solution";
 				setChanged();
 				notifyObservers("solve " + mazeName);
-				// }
+
 
 			}
 
@@ -173,18 +175,16 @@ public class MazeWindow extends BasicWindow implements View {
 
 		Button btnHint = new Button(btnGroup, SWT.PUSH);
 
-		btnHint.setText("Show Hint");
+		btnHint.setText("Show Hint (BETA)");
 		btnHint.setBackground(new Color(null, 102, 178, 255));
 		btnHint.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				if (mazeName != null) {
+					hint++;
 					solutionCmd = "display_hint";
 					setChanged();
 					notifyObservers("solve " + mazeName);
-				}
-
 			}
 
 			@Override
@@ -545,6 +545,11 @@ public class MazeWindow extends BasicWindow implements View {
 	public void displayMazeSolution(Solution<Position> solution) {
 		mazeDisplay.printSolution(solution);
 	}
+	
+	@Override
+	public void displayHint(Solution<Position> solution) {
+		mazeDisplay.printHint(solution);
+	}
 
 	/**
 	 * Display maze hint.
@@ -553,7 +558,7 @@ public class MazeWindow extends BasicWindow implements View {
 	 *            the solution
 	 */
 	public void displayMazeHint(Solution<Position> solution) {
-		mazeDisplay.prinHint(solution);
+		mazeDisplay.printHint(solution);
 	}
 
 	/*

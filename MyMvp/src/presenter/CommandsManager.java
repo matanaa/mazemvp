@@ -60,6 +60,7 @@ public class CommandsManager {
 		commands.put("load_maze", new load_maze());
 		commands.put("solve", new solveMaze3d());
 		commands.put("display_solution", new displayMazeSolution());
+		commands.put("display_hint", new displayHint());
 		commands.put("change_xml", new change_xml());
 		commands.put("exit", new exit());
 		return commands;
@@ -357,6 +358,35 @@ public class CommandsManager {
 		}
 	}
 
+	public class displayHint implements Command {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
+		@Override
+		public void doCommand(String[] args) {
+			// will send error if not enough args has been sent
+			if (args.length != 1) {
+				view.printErrorMessage(new String[] { "Arguments Error", "Please enter Maze name" });
+				return;
+			}
+			// parsing the args
+			String name = args[0];
+			// will get the solution from the solution list
+			Solution<Position> solution = model.getMazeSolution(name);
+			if (solution == null) {
+				view.printErrorMessage(
+						new String[] { "maze solution error", "can't find the solution for maze " + name });
+			}
+			// send command to the view to show the solution and the cost
+			else {
+				view.displayHint(solution);
+			}
+		}
+	}
+	
 	public class change_xml implements Command {
 
 		/*

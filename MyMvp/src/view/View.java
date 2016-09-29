@@ -62,6 +62,8 @@ public interface View {
 	 *            the solution
 	 */
 	void displayMazeSolution(Solution<Position> solution);
+	
+	void displayHint(Solution<Position> solution);
 
 	/**
 	 * will Prints the error message if they occurs .

@@ -8,7 +8,7 @@
    <int>10</int>
   </void>
   <void property="solveMazeAlgorithm">
-   <string>DFS</string>
+   <string>BFS</string>
   </void>
   <void property="view">
   	<string>GUI</string></void></object>
