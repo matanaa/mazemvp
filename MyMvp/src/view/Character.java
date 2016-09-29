@@ -9,109 +9,122 @@ import org.eclipse.swt.graphics.RGB;
 
 import algorithms.mazeGenerators.Position;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Character - In charge of all of our character display and actions
+ */
 public class Character implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Position pos;
-	private Image img;
-// try animation
-//	private ImageLoader loader;
-//	private int imageNumber = 0;
-//	private Thread thread;
-//	private int cellWidth, cellHeight;
-//	private GC mazeGC;
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
+	/** The pos. */
+	private Position pos;
+
+	/** The img. */
+	private Image img;
+
+	/**
+	 * Instantiates a new character.
+	 */
 	public Character() {
-		//regualr
-		//img = new Image(null, "lib/images/character.jpg");
-		
-		//delete white pixsel
+		// Gets the image
 		ImageData ideaData = new ImageData("lib/images/character.png");
-// delete white pixels
-//		 int whitePixel = ideaData.palette.getPixel(new RGB(255,255,255));
-//		 ideaData.transparentPixel = whitePixel;
-		 img = new Image(null,ideaData);
-		 
-		// try animation
-//		loader = new ImageLoader();
-//		loader.load("lib/images/1.gif");
-//		System.out.println(loader.data.length);
-//		img = new Image(null, loader.data[0]);
+		img = new Image(null, ideaData);
+
 	}
 
+	/**
+	 * Instantiates a new character With an image and a position
+	 *
+	 * @param pos
+	 *            the pos
+	 * @param img
+	 *            the img
+	 */
 	public Character(Position pos, Image img) {
 		super();
 		this.pos = pos;
 		this.img = img;
 	}
 
+	/**
+	 * Gets the pos.
+	 *
+	 * @return the pos
+	 */
 	public Position getPos() {
 		return pos;
 	}
 
+	/**
+	 * Sets the pos.
+	 *
+	 * @param pos
+	 *            the new pos
+	 */
 	public void setPos(Position pos) {
 		this.pos = new Position(pos.z, pos.y, pos.x);
-		
+
 	}
 
+	/**
+	 * Draw.
+	 *
+	 * @param cellWidth
+	 *            the cell width
+	 * @param cellHeight
+	 *            the cell height
+	 * @param gc
+	 *            the gc
+	 */
 	public void draw(int cellWidth, int cellHeight, GC gc) {
-//		this.cellWidth = cellWidth;
-//		this.cellHeight = cellHeight;
-//		this.mazeGC = gc;
-		
-		
+
 		gc.drawImage(img, 0, 0, img.getBounds().width, img.getBounds().height, cellWidth * pos.x, cellHeight * pos.y,
 				cellWidth, cellHeight);
 
 	}
 
+	/**
+	 * Move right.
+	 */
 	public void moveRight() {
 		pos.x++;
 	}
 
+	/**
+	 * Move left.
+	 */
 	public void moveLeft() {
 		pos.x--;
 	}
 
+	/**
+	 * Move up.
+	 */
 	public void moveUp() {
 		pos.z++;
 	}
 
+	/**
+	 * Move down.
+	 */
 	public void moveDown() {
 		pos.z--;
 	}
 
+	/**
+	 * Move foreword.
+	 */
 	public void moveForeword() {
 		pos.y--;
 	}
 
+	/**
+	 * Move backward.
+	 */
 	public void moveBackward() {
 		pos.y++;
 	}
-	
-/*	public void animation(){
 
-		
-			while (true) {
-				System.out.println(imageNumber);
-				long currentTime = System.currentTimeMillis();
-				int delayTime = loader.data[imageNumber].delayTime;
-				try {
-					Thread.sleep(delayTime);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				imageNumber = imageNumber == loader.data.length - 1 ? 0 : imageNumber + 1;
-				img = new Image(null, loader.data[imageNumber]);
-				System.out.println(imageNumber);
-				if (mazeGC!=null && cellHeight!=0){
-				//draw(cellWidth, cellHeight, mazeGC);
-				}
-			}
-		
-	
-	}*/
 }

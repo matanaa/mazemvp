@@ -38,7 +38,7 @@ import properties.PropertiesLoader;
  */
 public class MyModel extends Observable implements Model {
 
-	/**  The maze list - list of all mazes saved in the game. */
+	/** The maze list - list of all mazes saved in the game. */
 	protected ConcurrentHashMap<String, Maze3d> mazeMap;
 
 	/** The solution list list of all the solution for those mazes. */
@@ -46,9 +46,6 @@ public class MyModel extends Observable implements Model {
 
 	/** The thread pool. */
 	protected ExecutorService threadPool;
-
-	/** The generate maze tasks. */
-	//protected List<generateMazeRunnable> generateMazeTasks = new ArrayList<generateMazeRunnable>();
 
 	/** The open file count. */
 	// will count how many files are open
@@ -61,16 +58,17 @@ public class MyModel extends Observable implements Model {
 	protected ExecutorService executor;
 
 	/**
-	 * Instantiates a new my model.
+	 * Instantiates a new my model. Pull the properties, all the current mazes
+	 * and their solutions
 	 */
 	public MyModel() {
 		properties = PropertiesLoader.getInstance().getProperties();
 		this.mazeMap = new ConcurrentHashMap<String, Maze3d>();
 		this.solutionMap = new ConcurrentHashMap<String, Solution<Position>>();
-		this.threadPool =  Executors.newFixedThreadPool(properties.getNumOfThreads());
+		this.threadPool = Executors.newFixedThreadPool(properties.getNumOfThreads());
 
-		
-		//executor = Executors.newFixedThreadPool(properties.getNumOfThreads());
+		// executor =
+		// Executors.newFixedThreadPool(properties.getNumOfThreads());
 		loadSolutions();
 
 	}
@@ -84,10 +82,15 @@ public class MyModel extends Observable implements Model {
 		return properties;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see model.Model#setProperties(properties.Properties)
+	 */
 	@Override
 	public void setProperties(Properties properties) {
 		this.properties = properties;
-		
+
 	}
 
 	/**
@@ -223,7 +226,7 @@ public class MyModel extends Observable implements Model {
 		private Maze3dGenerator generator;
 
 		/**
-		 * Instantiates a new generate maze runnable.
+		 * Instantiates a new generate maze Callable.
 		 *
 		 * @param floors
 		 *            the floors
@@ -252,7 +255,6 @@ public class MyModel extends Observable implements Model {
 		 */
 		@Override
 		public Maze3d call() {
-			// choosing the generator type
 			Maze3d maze = generator.generate(floors, rows, colums);
 			mazeMap.put(name, maze);
 			setChanged();
@@ -306,8 +308,8 @@ public class MyModel extends Observable implements Model {
 		try {
 
 			File fileinstance = new File(file);// file instance need
-														// for taking the file
-														// size
+												// for taking the file
+												// size
 			// using decorator pattern to get a file using our decompressor
 			in = new MyDecompressorInputStream(new FileInputStream(fileinstance));
 			// creates a max size byte array
@@ -344,12 +346,14 @@ public class MyModel extends Observable implements Model {
 
 	@Override
 	public void solveMaze3d(String name, CommonSearcher<Position> searcher) {
-
+		// Start a solve maze thread and run it
 		threadPool.submit(new Callable<Solution<Position>>() {
 
 			@Override
 			public Solution<Position> call() throws Exception {
-
+				// Uses the maze adapter to solve the maze, put it in the
+				// solutions list and then notifies
+				// the observers that it finished
 				Maze3d maze = mazeMap.get(name);
 				Searchable<Position> searchableMaze = new MazeAdapter(maze);
 				Solution<Position> solution = searcher.search(searchableMaze);
@@ -391,6 +395,7 @@ public class MyModel extends Observable implements Model {
 	@Override
 	public void save_maze(String name, String file_name) {
 		Maze3d maze = getMaze(name); // get the maze by name
+		// errors
 		if (maze == null) {
 			notifyObservers(new String[] { "SolutionIsReady", name });
 			notifyObservers(new String[] { "error", "maze name error", "can't find the maze " + name });
@@ -398,19 +403,15 @@ public class MyModel extends Observable implements Model {
 			return;
 		}
 		OutputStream savedFile;
-		openFileCount++; // will add notification that one file is opend
+		openFileCount++; // will add notification that one file is opened
 		try {
-
 			savedFile = new MyCompressorOutputStream(new FileOutputStream(file_name));
-
 			savedFile.write(maze.toByteArray());// write the compress byte maze
 												// to file
 			savedFile.flush();
 			savedFile.close();
 		} catch (IOException e) {
 			notifyObservers(new String[] { "error", "File location Error", "can't save in that path" });
-			// controller.printErrorMessage(new String[] { "File location
-			// Error", "can't save in that path" });
 		} finally {
 			openFileCount--; // notify that one file is closed
 		}
@@ -489,9 +490,5 @@ public class MyModel extends Observable implements Model {
 			}
 		}
 	}
-
-
-
-
 
 }

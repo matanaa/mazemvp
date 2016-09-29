@@ -8,6 +8,10 @@ import java.util.Observer;
 import model.Model;
 import view.View;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MyPresenter.
+ */
 public class MyPresenter implements Observer {
 
 	/** The model. */
@@ -19,8 +23,17 @@ public class MyPresenter implements Observer {
 	/** The commands manager. */
 	protected CommandsManager commandsManager;
 
+	/** The commands. */
 	protected HashMap<String, Command> commands;
 
+	/**
+	 * Instantiates a new my presenter.
+	 *
+	 * @param view
+	 *            the view
+	 * @param model
+	 *            the model
+	 */
 	public MyPresenter(View view, Model model) {
 		this.model = model;
 		this.view = view;
@@ -28,9 +41,14 @@ public class MyPresenter implements Observer {
 		commandsManager = new CommandsManager(model, view);
 		commands = commandsManager.getCommandsMap();
 
-		//view.printAnswers(new String[] { model.getProperies().toString() });
+		// view.printAnswers(new String[] { model.getProperies().toString() });
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	public void update(Observable o, Object arg) {
 		if (o == view) {
 			String commandLine = (String) arg;
@@ -41,10 +59,9 @@ public class MyPresenter implements Observer {
 
 			// throws error if the command isn't part of the
 			// commands list
-			if (command.equals("display_maze")){
+			if (command.equals("display_maze")) {
 				view.displayMaze(model.getMaze(commandsArray[1]));
-			}
-			else if (!commands.containsKey(command)) {
+			} else if (!commands.containsKey(command)) {
 				view.printErrorMessage(new String[] { "Critical Error", "Command doesn't exist!" });
 			} else {
 				// creates the variable that will hold the arguments

@@ -13,12 +13,12 @@ import properties.Properties;
 // TODO: Auto-generated Javadoc
 /**
  * The Interface Model - Interface that holds all the function that a model
- * should implement
+ * should implement.
  */
 public interface Model {
 
 	/**
-	 * Generate maze - Will generate a new Maze3d
+	 * Generate maze - Will generate a new Maze3d.
 	 *
 	 * @param name
 	 *            the name
@@ -43,7 +43,7 @@ public interface Model {
 	Maze3d getMaze(String name);
 
 	/**
-	 * Load maze - Will load a maze from a file to a name you choose
+	 * Load maze - Will load a maze from a file to a name you choose.
 	 *
 	 * @param file_name
 	 *            the file name
@@ -57,7 +57,7 @@ public interface Model {
 	void loadMaze(String file_name, String name) throws FileNotFoundException, IOException;
 
 	/**
-	 * Solve maze 3 d - Solve a maze using one of the searchers
+	 * Solve maze 3 d - Solve a maze using one of the searchers.
 	 *
 	 * @param name
 	 *            the name
@@ -67,7 +67,7 @@ public interface Model {
 	void solveMaze3d(String name, CommonSearcher<Position> commonSearcher);
 
 	/**
-	 * Gets the maze solution - Only if there is a solution to the maze
+	 * Gets the maze solution - Only if there is a solution to the maze.
 	 *
 	 * @param name
 	 *            the name
@@ -81,7 +81,7 @@ public interface Model {
 	void finishThreads();
 
 	/**
-	 * Save maze - to a file
+	 * Save maze - to a file.
 	 *
 	 * @param name
 	 *            the name
@@ -104,10 +104,12 @@ public interface Model {
 	 * @return the properties
 	 */
 	Properties getProperties();
-	
+
 	/**
 	 * Sets the properties.
 	 *
+	 * @param properties
+	 *            the new properties
 	 * @return the properties
 	 */
 	void setProperties(Properties properties);

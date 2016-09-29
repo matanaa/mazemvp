@@ -11,7 +11,7 @@ import java.io.IOException;
 public interface Command {
 
 	/**
-	 * Do command - Each command will implement this function in order to run
+	 * Do command - Each command will implement this function in order to run.
 	 *
 	 * @param command
 	 *            the command

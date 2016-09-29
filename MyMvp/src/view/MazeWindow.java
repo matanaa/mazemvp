@@ -36,8 +36,6 @@ public class MazeWindow extends BasicWindow implements View {
 
 	/** The solution cmd. */
 	private String solutionCmd = "";
-	
-	private int hint = 0;
 
 	/*
 	 * (non-Javadoc)
@@ -46,7 +44,7 @@ public class MazeWindow extends BasicWindow implements View {
 	 */
 	@Override
 	protected void initWidgets() {
-		
+
 		GridLayout gridLayout = new GridLayout(2, false);
 		shell.setLayout(gridLayout);
 		shell.setText("MaTan & Snir MaZe 3D");
@@ -67,7 +65,7 @@ public class MazeWindow extends BasicWindow implements View {
 	}
 
 	/**
-	 * Show menu.
+	 * Show menu - all the buttons and what actions they initiate
 	 *
 	 * @param shell
 	 *            the shell
@@ -78,7 +76,9 @@ public class MazeWindow extends BasicWindow implements View {
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
 		btnGroup.setLayout(rowLayout);
 		btnGroup.setBackground(new Color(null, 102, 178, 255));
-		rowLayout.pack =false;
+		rowLayout.pack = false;
+
+		// generate new maze
 		Button btnGenerateMaze = new Button(btnGroup, SWT.PUSH);
 		btnGenerateMaze.setText("Generate maze");
 		btnGenerateMaze.setBackground(new Color(null, 102, 178, 255));
@@ -96,6 +96,8 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
+		
+		// load maze to the screen
 		Button btnLoadMaze = new Button(btnGroup, SWT.PUSH);
 		btnLoadMaze.setText("Load maze");
 		btnLoadMaze.setBackground(new Color(null, 102, 178, 255));
@@ -114,6 +116,7 @@ public class MazeWindow extends BasicWindow implements View {
 			}
 		});
 
+		// save maze to a file
 		Button btnSaveMazeToFile = new Button(btnGroup, SWT.PUSH);
 		btnSaveMazeToFile.setText("Save maze to file");
 		btnSaveMazeToFile.setBackground(new Color(null, 102, 178, 255));
@@ -132,6 +135,7 @@ public class MazeWindow extends BasicWindow implements View {
 			}
 		});
 
+		// load maze from a file to the game
 		Button btnLoadMazeFromFile = new Button(btnGroup, SWT.PUSH);
 		btnLoadMazeFromFile.setText("Load maze from file");
 		btnLoadMazeFromFile.setBackground(new Color(null, 102, 178, 255));
@@ -150,19 +154,17 @@ public class MazeWindow extends BasicWindow implements View {
 			}
 		});
 
+		// solve the current maze
 		Button btnSolveMaze = new Button(btnGroup, SWT.PUSH);
-
 		btnSolveMaze.setText("Solve maze");
 		btnSolveMaze.setBackground(new Color(null, 102, 178, 255));
 		btnSolveMaze.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				hint = 0;
 				solutionCmd = "display_solution";
 				setChanged();
 				notifyObservers("solve " + mazeName);
-
 
 			}
 
@@ -173,18 +175,17 @@ public class MazeWindow extends BasicWindow implements View {
 			}
 		});
 
+		// show hint
 		Button btnHint = new Button(btnGroup, SWT.PUSH);
-
 		btnHint.setText("Show Hint (BETA)");
 		btnHint.setBackground(new Color(null, 102, 178, 255));
 		btnHint.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-					hint++;
-					solutionCmd = "display_hint";
-					setChanged();
-					notifyObservers("solve " + mazeName);
+				solutionCmd = "display_hint";
+				setChanged();
+				notifyObservers("solve " + mazeName);
 			}
 
 			@Override
@@ -194,6 +195,7 @@ public class MazeWindow extends BasicWindow implements View {
 			}
 		});
 
+		// load new properties file from anywhere
 		Button btnLoadXML = new Button(btnGroup, SWT.PUSH);
 		btnLoadXML.setText("Load Properties File");
 		btnLoadXML.setBackground(new Color(null, 102, 178, 255));
@@ -217,7 +219,8 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
-
+		
+		// exit the game
 		Button btnExit = new Button(btnGroup, SWT.PUSH);
 		btnExit.setText("Exit game");
 		btnExit.setBackground(new Color(null, 102, 178, 255));
@@ -405,7 +408,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				loadMazeToFileDialog(name.getText());
+				loadMazeFromFileDialog(name.getText());
 				shell.close();
 
 			}
@@ -426,7 +429,7 @@ public class MazeWindow extends BasicWindow implements View {
 	 * @param mazeName
 	 *            the maze name
 	 */
-	protected void loadMazeToFileDialog(String mazeName) {
+	protected void loadMazeFromFileDialog(String mazeName) {
 		Shell shell = new Shell();
 
 		GridLayout layout = new GridLayout(2, false);
@@ -490,9 +493,7 @@ public class MazeWindow extends BasicWindow implements View {
 	 */
 	@Override
 	public void start() {
-
 		run();
-
 	}
 
 	/*
@@ -545,7 +546,12 @@ public class MazeWindow extends BasicWindow implements View {
 	public void displayMazeSolution(Solution<Position> solution) {
 		mazeDisplay.printSolution(solution);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see view.View#displayHint(algorithms.search.Solution)
+	 */
 	@Override
 	public void displayHint(Solution<Position> solution) {
 		mazeDisplay.printHint(solution);

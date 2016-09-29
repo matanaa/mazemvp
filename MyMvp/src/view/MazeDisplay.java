@@ -24,28 +24,64 @@ import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
 import algorithms.search.State;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MazeDisplay - In charge of how the maze will look like
+ */
 public class MazeDisplay extends Canvas {
+
+	/** The maze. */
 	private Maze3d maze;
+
+	/** The maze data. */
 	private int[][] mazeData;
+
+	/** The win. */
 	protected boolean win = false;
+
+	/** The character. */
 	private Character character;
 
+	/** The start cube. */
 	private SpecialCube startCube = new SpecialCube("start.png");
+
+	/** The goal cube. */
 	private SpecialCube goalCube = new SpecialCube("goal1.png");
+
+	/** The stair up. */
 	private SpecialCube stairUp = new SpecialCube("stairs_up.png");
+
+	/** The stair down. */
 	private SpecialCube stairDown = new SpecialCube("stairs_down.png");
+
+	/** The wall cube. */
 	private SpecialCube wallCube = new SpecialCube("wall.png");
+
+	/** The road cube. */
 	private SpecialCube roadCube = new SpecialCube("road.jpg");
+
+	/** The hint cube. */
 	private SpecialCube hintCube = new SpecialCube("hint.png");
 
+	/**
+	 * Instantiates a new maze display.
+	 *
+	 * @param parent
+	 *            the parent
+	 * @param style
+	 *            the style
+	 */
 	public MazeDisplay(Shell parent, int style) {
 		super(parent, style);
 		this.setBackground(new Color(null, 233, 232, 233));
 		initCharacter();
-		addListeners() ;
+		addListeners();
 		drawMaze();
 	}
-	
+
+	/**
+	 * Adds the listeners.
+	 */
 	protected void addListeners() {
 		this.addKeyListener(new KeyListener() {
 
@@ -54,7 +90,6 @@ public class MazeDisplay extends Canvas {
 				// TODO Auto-generated method stub
 
 			}
-
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (mazeData == null) {
@@ -65,12 +100,20 @@ public class MazeDisplay extends Canvas {
 			}
 		});
 	}
-protected void initCharacter(){
-	character = new Character();
-	character.setPos(new Position(0, 0, 0));
 
-}
-	protected void drawMaze(){
+	/**
+	 * Inits the character.
+	 */
+	protected void initCharacter() {
+		character = new Character();
+		character.setPos(new Position(0, 0, 0));
+
+	}
+
+	/**
+	 * Draw maze.
+	 */
+	protected void drawMaze() {
 
 		this.addPaintListener(new PaintListener() {
 
@@ -80,7 +123,6 @@ protected void initCharacter(){
 					Image imgBack = new Image(null, "lib/images/menu.jpg");
 					e.gc.drawImage(imgBack, 0, 0, imgBack.getBounds().width, imgBack.getBounds().height, 0, 0,
 							getSize().x, getSize().y);
-
 					return;
 				}
 
@@ -95,34 +137,34 @@ protected void initCharacter(){
 
 				for (int i = 0; i < mazeData.length; i++)
 					for (int j = 0; j < mazeData[i].length; j++) {
-						int x = j * w;
-						int y = i * h;
 						if (mazeData[i][j] != 0) {
-							// e.gc.fillRectangle(x, y, w, h);
 							wallCube.draw(w, h, e.gc, (new Position(character.getPos().z + 1, i, j)));
 						} else {
-							// check for staris
+							// check for stairs
 							ArrayList<Position> moves = maze.getPossibleMoves(new Position(character.getPos().z, i, j));
+							// up
 							roadCube.draw(w, h, e.gc, (new Position(character.getPos().z + 1, i, j)));
-							if (moves.contains(new Position(character.getPos().z + 1, i, j))) {// up
+							if (moves.contains(new Position(character.getPos().z + 1, i, j))) {
 								stairUp.draw(w, h, e.gc, (new Position(character.getPos().z + 1, i, j)));
-							} else if (moves.contains(new Position(character.getPos().z - 1, i, j))) {// down
+								// down
+							} else if (moves.contains(new Position(character.getPos().z - 1, i, j))) {
 								stairDown.draw(w, h, e.gc, (new Position(character.getPos().z - 1, i, j)));
 							}
 
 						}
 
 					}
-
+				// draw the starting position
 				if (character.getPos().z == maze.getStartPos().z) {
 					startCube.draw(w, h, e.gc, maze.getStartPos());
 				}
-
+				// draw the goal positions
 				if (character.getPos().z == maze.getGoalPos().z) {
 					goalCube.draw(w, h, e.gc, maze.getGoalPos());
 				}
+				// draw the character
 				character.draw(w, h, e.gc);
-
+				// in case the character starts in the finish line
 				if (character.getPos().equals(maze.getGoalPos()) && !win) {
 					winnerEvent();
 					forceFocus();
@@ -132,15 +174,34 @@ protected void initCharacter(){
 		});
 
 	}
+
+	/**
+	 * Sets the character pos.
+	 *
+	 * @param pos
+	 *            the new character pos
+	 */
 	public void setCharacterPos(Position pos) {
 		character.setPos(new Position(pos.z, pos.y, pos.x));
 	}
 
+	/**
+	 * Sets the maze data.
+	 *
+	 * @param mazeData
+	 *            the new maze data
+	 */
 	public void setMazeData(int[][] mazeData) {
 		this.mazeData = mazeData;
 		this.redraw();
 	}
 
+	/**
+	 * Sets the maze.
+	 *
+	 * @param maze
+	 *            the new maze
+	 */
 	public void setMaze(Maze3d maze) {
 		this.maze = maze;
 		setMazeData(maze.getCrossSectionByZ(maze.getStartPos().z));
@@ -148,11 +209,16 @@ protected void initCharacter(){
 		win = false;
 	}
 
+	/**
+	 * Prints the solution.
+	 *
+	 * @param solution
+	 *            the solution
+	 */
 	public void printSolution(Solution<Position> solution) {
 
-		// i=solution.getSolution().indexOf(new State<Position>
-		// (character.getPos()) );
-
+		// Time task that make sure that each step will take place after certain
+		// amount of time
 		TimerTask task = new TimerTask() {
 			int i = solution.getSolution().indexOf(new State<Position>(character.getPos()));
 
@@ -166,10 +232,8 @@ protected void initCharacter(){
 						if (i == solution.getSolution().size()) {
 							cancel();
 							return;
-							// TODO: fix this line
 						}
 						if (i == -1) {
-
 							i = 0;
 						}
 
@@ -182,26 +246,36 @@ protected void initCharacter(){
 			}
 		};
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 500);
+		// The timer properties
+		timer.scheduleAtFixedRate(task, 0, 20);
 
 	}
-	
-	public void printHint (Solution<Position> solution){
-			
+
+	/**
+	 * Prints the hint - right now shows only hint from the start position.
+	 * needs fix
+	 * TODO fix it
+	 *
+	 * @param solution
+	 *            the solution
+	 */
+	public void printHint(Solution<Position> solution) {
+
 		getDisplay().syncExec(new Runnable() {
 
 			@Override
 			public void run() {
-
 				character.setPos(solution.getSolution().get(1).getState());
 				setMazeData(maze.getCrossSectionByZ(character.getPos().z));
 				redraw();
 			}
 		});
-		
-		
+
 	}
 
+	/**
+	 * Winner event.
+	 */
 	private void winnerEvent() {
 		MessageBox msgBox = new MessageBox(new Shell(), SWT.ICON_INFORMATION);
 		msgBox.setText("Congratulations!");
@@ -211,6 +285,12 @@ protected void initCharacter(){
 
 	}
 
+	/**
+	 * Key managet.
+	 *
+	 * @param e
+	 *            the e
+	 */
 	private void KeyManaget(KeyEvent e) {
 		Position pos = character.getPos();
 		ArrayList<Position> moves = maze.getPossibleMoves(pos);

@@ -8,7 +8,8 @@ import java.util.Observable;
 // TODO: Auto-generated Javadoc
 /**
  * The Class CLI - The class that is in charge of the menu and getting input
- * from the user. Defines how to get input and where to show output
+ * from the user. Defines how to get input and where to show output.
+ * the class is observable since it is being observed by the view.
  */
 public class CLI extends Observable {
 
@@ -38,14 +39,11 @@ public class CLI extends Observable {
 		out.println("\n\n==============================================");
 		out.println("Please choose Command to run:");
 		out.println("==============================================");
-/*		
-		// the menu
-		Integer i = 1;
-		for (String command : commands.keySet()) {
-			out.println("\t" + i.toString() + ")" + command);
-			i++;
-		}*/
-		
+		/*
+		 * // the menu Integer i = 1; for (String command : commands.keySet()) {
+		 * out.println("\t" + i.toString() + ")" + command); i++; }
+		 */
+
 		// example command
 		out.println("example: generate_maze newmaze 5 5 5 Growing\n");
 		out.flush();
@@ -54,7 +52,7 @@ public class CLI extends Observable {
 
 	/**
 	 * Start - the function that handles what happen after the user choose an
-	 * option
+	 * option.
 	 */
 
 	public void start() {
@@ -83,6 +81,12 @@ public class CLI extends Observable {
 		thread.start();
 	}
 
+	/**
+	 * Adds the observer.
+	 *
+	 * @param myView
+	 *            the my view
+	 */
 	public void addObserver(MyView myView) {
 		// TODO Auto-generated method stub
 

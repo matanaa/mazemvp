@@ -358,6 +358,9 @@ public class CommandsManager {
 		}
 	}
 
+	/**
+	 * The Class displayHint.
+	 */
 	public class displayHint implements Command {
 
 		/*
@@ -386,7 +389,10 @@ public class CommandsManager {
 			}
 		}
 	}
-	
+
+	/**
+	 * The Class change_xml.
+	 */
 	public class change_xml implements Command {
 
 		/*
@@ -405,7 +411,6 @@ public class CommandsManager {
 			PropertiesLoader xmLoader = new PropertiesLoader();
 			xmLoader.setPropertiesLoader(file);
 			model.setProperties(xmLoader.getProperties());
-			
 
 		}
 	}
