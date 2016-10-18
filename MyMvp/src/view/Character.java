@@ -11,7 +11,7 @@ import algorithms.mazeGenerators.Position;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Character - In charge of all of our character display and actions
+ * The Class Character - In charge of all of our character display and actions.
  */
 public class Character implements Serializable {
 
@@ -35,7 +35,7 @@ public class Character implements Serializable {
 	}
 
 	/**
-	 * Instantiates a new character With an image and a position
+	 * Instantiates a new character With an image and a position.
 	 *
 	 * @param pos
 	 *            the pos
@@ -55,6 +55,33 @@ public class Character implements Serializable {
 	 */
 	public Position getPos() {
 		return pos;
+	}
+
+	/**
+	 * Gets the pos Z.
+	 *
+	 * @return the pos Z
+	 */
+	public int getPosZ() {
+		return pos.getZ();
+	}
+
+	/**
+	 * Gets the pos Y.
+	 *
+	 * @return the pos Y
+	 */
+	public int getPosY() {
+		return pos.getY();
+	}
+
+	/**
+	 * Gets the pos X.
+	 *
+	 * @return the pos X
+	 */
+	public int getPosX() {
+		return pos.getX();
 	}
 
 	/**

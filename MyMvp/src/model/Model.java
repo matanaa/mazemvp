@@ -119,4 +119,16 @@ public interface Model {
 	 */
 	void saveSolutions();
 
+	/**
+	 * Solve maze 3 d from pos.
+	 *
+	 * @param name
+	 *            the name
+	 * @param searcher
+	 *            the searcher
+	 * @param startpos
+	 *            the startpos
+	 */
+	void solveMaze3dFromPos(String name, CommonSearcher<Position> searcher, Position startpos);
+
 }

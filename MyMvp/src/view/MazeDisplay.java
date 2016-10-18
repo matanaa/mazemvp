@@ -26,7 +26,7 @@ import algorithms.search.State;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class MazeDisplay - In charge of how the maze will look like
+ * The Class MazeDisplay - In charge of how the maze will look like.
  */
 public class MazeDisplay extends Canvas {
 
@@ -64,6 +64,25 @@ public class MazeDisplay extends Canvas {
 	private SpecialCube hintCube = new SpecialCube("hint.png");
 
 	/**
+	 * Gets the character.
+	 *
+	 * @return the character
+	 */
+	public Character getCharacter() {
+		return character;
+	}
+
+	/**
+	 * Sets the character.
+	 *
+	 * @param character
+	 *            the new character
+	 */
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
+
+	/**
 	 * Instantiates a new maze display.
 	 *
 	 * @param parent
@@ -90,6 +109,7 @@ public class MazeDisplay extends Canvas {
 				// TODO Auto-generated method stub
 
 			}
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (mazeData == null) {
@@ -247,14 +267,13 @@ public class MazeDisplay extends Canvas {
 		};
 		Timer timer = new Timer();
 		// The timer properties
-		timer.scheduleAtFixedRate(task, 0, 20);
+		timer.scheduleAtFixedRate(task, 0, 200);
 
 	}
 
 	/**
 	 * Prints the hint - right now shows only hint from the start position.
-	 * needs fix
-	 * TODO fix it
+	 * needs fix TODO fix it
 	 *
 	 * @param solution
 	 *            the solution

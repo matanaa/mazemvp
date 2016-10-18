@@ -369,6 +369,34 @@ public class MyModel extends Observable implements Model {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see model.Model#solveMaze3dFromPos(java.lang.String,
+	 * algorithms.search.CommonSearcher, algorithms.mazeGenerators.Position)
+	 */
+	@Override
+	public void solveMaze3dFromPos(String name, CommonSearcher<Position> searcher, Position startpos) {
+		// Start a solve maze thread and run it
+		threadPool.submit(new Callable<Solution<Position>>() {
+
+			@Override
+			public Solution<Position> call() throws Exception {
+				// Uses the maze adapter to solve the maze, put it in the
+				// solutions list and then notifies
+				// the observers that it finished
+				Maze3d maze = mazeMap.get(name);
+				Searchable<Position> searchableMaze = new MazeAdapter(maze, startpos);
+				Solution<Position> solution = searcher.search(searchableMaze);
+				solutionMap.put(name, solution);
+				setChanged();
+				notifyObservers(new String[] { "SolutionIsReady", name });
+				return solution;
+			}
+
+		});
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see model.CommonModel#getMazeSolution(java.lang.String)
 	 */
 	@Override

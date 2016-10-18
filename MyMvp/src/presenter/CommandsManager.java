@@ -59,6 +59,7 @@ public class CommandsManager {
 		commands.put("save_maze", new save_maze());
 		commands.put("load_maze", new load_maze());
 		commands.put("solve", new solveMaze3d());
+		commands.put("solve_from_position", new solveMaze3dfrompos());
 		commands.put("display_solution", new displayMazeSolution());
 		commands.put("display_hint", new displayHint());
 		commands.put("change_xml", new change_xml());
@@ -312,6 +313,50 @@ public class CommandsManager {
 		/**
 		 * Gets the algorithm. a command pattern the holds all the available
 		 * algorithms we can use
+		 *
+		 * @param algName
+		 *            the alg name
+		 * @return the algorithm
+		 */
+		public CommonSearcher<Position> getAlgorithm(String algName) {
+			HashMap<String, CommonSearcher<Position>> commands = new HashMap<String, CommonSearcher<Position>>();
+			commands.put("bfs", new BFS<Position>());
+			commands.put("dfs", new DFS<Position>());
+			return commands.get(algName.toLowerCase());
+		}
+	}
+
+	/**
+	 * The Class solveMaze3dfrompos.
+	 */
+	public class solveMaze3dfrompos implements Command {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see presenter.Command#doCommand(java.lang.String[])
+		 */
+		@Override
+		public void doCommand(String[] args) {
+			// will send error if not enough args has been sent
+			if (args.length != 4) {
+				view.printErrorMessage(new String[] { "Arguments Error", "Please enter Maze name and position" });
+				return;
+			}
+			// parsing the args
+			String name = args[0];
+			int positionZ = Integer.parseInt(args[1]);
+			int positionY = Integer.parseInt(args[2]);
+			int positionX = Integer.parseInt(args[3]);
+			Position position = new Position(positionZ, positionY, positionX);
+			// will send a command to the model to solve the maze with the
+			// specific starting position
+			model.solveMaze3dFromPos(name, getAlgorithm(model.getProperties().getSolveMazeAlgorithm()), position);
+
+		}
+
+		/**
+		 * Gets the algorithm.
 		 *
 		 * @param algName
 		 *            the alg name

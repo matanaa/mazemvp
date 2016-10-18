@@ -65,7 +65,7 @@ public class MazeWindow extends BasicWindow implements View {
 	}
 
 	/**
-	 * Show menu - all the buttons and what actions they initiate
+	 * Show menu - all the buttons and what actions they initiate.
 	 *
 	 * @param shell
 	 *            the shell
@@ -96,7 +96,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
-		
+
 		// load maze to the screen
 		Button btnLoadMaze = new Button(btnGroup, SWT.PUSH);
 		btnLoadMaze.setText("Load maze");
@@ -177,7 +177,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 		// show hint
 		Button btnHint = new Button(btnGroup, SWT.PUSH);
-		btnHint.setText("Show Hint (BETA)");
+		btnHint.setText("Show Hint");
 		btnHint.setBackground(new Color(null, 102, 178, 255));
 		btnHint.addSelectionListener(new SelectionListener() {
 
@@ -185,7 +185,8 @@ public class MazeWindow extends BasicWindow implements View {
 			public void widgetSelected(SelectionEvent arg0) {
 				solutionCmd = "display_hint";
 				setChanged();
-				notifyObservers("solve " + mazeName);
+				notifyObservers("solve_from_position " + mazeName + " " + mazeDisplay.getCharacter().getPosZ() + " "
+						+ mazeDisplay.getCharacter().getPosY() + " " + mazeDisplay.getCharacter().getPosX());
 			}
 
 			@Override
@@ -219,7 +220,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			}
 		});
-		
+
 		// exit the game
 		Button btnExit = new Button(btnGroup, SWT.PUSH);
 		btnExit.setText("Exit game");
