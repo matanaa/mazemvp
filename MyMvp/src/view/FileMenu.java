@@ -234,7 +234,7 @@ public class FileMenu extends Observable {
 			int style = SWT.APPLICATION_MODAL ;
 			MessageBox messageBox = new MessageBox(shell, style);
 			messageBox.setText("About");
-			messageBox.setMessage("Build by :\n-Matan Akrabi\n-Snir Blgaly");
+			messageBox.setMessage("Build by :\n-Matan Akrabi\n-Snir Balgaly");
 			messageBox.open() ;
 		}
 
