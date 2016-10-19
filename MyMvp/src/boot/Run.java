@@ -10,6 +10,7 @@ import properties.Properties;
 import properties.PropertiesLoader;
 import view.MazeWindow;
 import view.MyView;
+ 
 
 public class Run {
 
