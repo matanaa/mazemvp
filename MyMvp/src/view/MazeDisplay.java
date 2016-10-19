@@ -61,7 +61,7 @@ public class MazeDisplay extends Canvas {
 	private SpecialCube roadCube = new SpecialCube("road.jpg");
 
 	/** The hint cube. */
-	private SpecialCube hintCube = new SpecialCube("hint.png");
+	//private SpecialCube hintCube = new SpecialCube("hint.png");
 
 	/**
 	 * Gets the character.
