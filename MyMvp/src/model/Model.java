@@ -20,7 +20,7 @@ public interface Model {
 	/**
 	 * Generate maze - Will generate a new Maze3d.
 	 *
-	 * @param  name
+	 * @param name
 	 *            the name
 	 * @param floors
 	 *            the floors

@@ -1,5 +1,8 @@
 package view;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -26,7 +29,7 @@ import properties.PropertiesLoader;
 /**
  * The Class MazeWindow.
  */
-public class MazeWindow extends BasicWindow implements View {
+public class MazeWindow extends BasicWindow implements View,Observer {
 
 	/** The maze display. */
 	private MazeDisplay mazeDisplay;
@@ -36,6 +39,8 @@ public class MazeWindow extends BasicWindow implements View {
 
 	/** The solution cmd. */
 	private String solutionCmd = "";
+	
+	private FileMenu winMenu;
 
 	/*
 	 * (non-Javadoc)
@@ -61,7 +66,7 @@ public class MazeWindow extends BasicWindow implements View {
 		showMenu(this.shell);
 		mazeDisplay = new MazeDisplay(this.shell, SWT.DOUBLE_BUFFERED);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
+		winMenuConfig();
 	}
 
 	/**
@@ -70,8 +75,9 @@ public class MazeWindow extends BasicWindow implements View {
 	 * @param shell
 	 *            the shell
 	 */
+	
 	protected void showMenu(Shell shell) {
-
+ 
 		Composite btnGroup = new Composite(shell, SWT.BORDER);
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
 		btnGroup.setLayout(rowLayout);
@@ -162,11 +168,10 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				solutionCmd = "display_solution";
-				setChanged();
-				notifyObservers("solve " + mazeName);
+				getSolve();
 
 			}
+
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
@@ -183,10 +188,11 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				solutionCmd = "display_hint";
-				setChanged();
-				notifyObservers("solve_from_position " + mazeName + " " + mazeDisplay.getCharacter().getPosZ() + " "
-						+ mazeDisplay.getCharacter().getPosY() + " " + mazeDisplay.getCharacter().getPosX());
+//				solutionCmd = "display_hint";
+//				setChanged();
+//				notifyObservers("solve_from_position " + mazeName + " " + mazeDisplay.getCharacter().getPosZ() + " "
+//						+ mazeDisplay.getCharacter().getPosY() + " " + mazeDisplay.getCharacter().getPosX());
+				getHint();
 			}
 
 			@Override
@@ -209,9 +215,10 @@ public class MazeWindow extends BasicWindow implements View {
 				dialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
 				dialog.setFilterPath("c:\\");
 				dialog.open();
-
+				if (dialog.getFileName()!=""){
 				setChanged();
 				notifyObservers("change_xml " + dialog.getFilterPath() + "\\" + dialog.getFileName());
+				}
 			}
 
 			@Override
@@ -585,5 +592,51 @@ public class MazeWindow extends BasicWindow implements View {
 		msgBox.open();
 
 	}
+	
+	
+	private void winMenuConfig() {
+		winMenu = new FileMenu(shell, SWT.NONE,this);
+		winMenu.addObserver(this);
+		winMenu.createMenuBar();
+	}
+
+	public MazeDisplay GetMazeDisplay() {
+		return mazeDisplay;
+	}
+	/**
+	 * @return the solutionCmd
+	 */
+	public String getSolutionCmd() {
+		return solutionCmd;
+	}
+
+	/**
+	 * @param solutionCmd the solutionCmd to set
+	 */
+	public void setSolutionCmd(String solutionCmd) {
+		this.solutionCmd = solutionCmd;
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		setChanged();
+		notifyObservers(arg1);
+	}
+	
+	public void getHint(){
+		solutionCmd = "display_hint";
+		setChanged();
+		notifyObservers("solve_from_position " + mazeName + " " + mazeDisplay.getCharacter().getPosZ() + " "
+				+ mazeDisplay.getCharacter().getPosY() + " " + mazeDisplay.getCharacter().getPosX());
+	}
+	
+	public void getSolve() {
+		solutionCmd = "display_solution";
+		setChanged();
+		notifyObservers("solve " + mazeName);
+		
+	}
+
 
 }
